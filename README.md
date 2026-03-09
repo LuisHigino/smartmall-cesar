@@ -24,3 +24,8 @@ A ideia de shopping se dá uma vez que nos abre um leque bem vasto de possíveis
 
 
 [-Quadro entrega 1](https://cdn.discordapp.com/attachments/1474450113509457932/1480384519701004288/image.png?ex=69af7b05&is=69ae2985&hm=5a2bfc88cfd0b14cd88499afc50a6cb015624a3b108bb922d054cf3d8b7a3b1c)
+
+
+[-Figma board Protótipo](https://www.figma.com/board/vSDqHps0Z33oV9mkjktN6I/Projeto---Smart-Mall?node-id=0-1&p=f&t=eDLrNBHWh9KLbcQ5-0)
+
+
