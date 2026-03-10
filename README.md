@@ -14,18 +14,21 @@ A ideia de shopping se dá uma vez que nos abre um leque bem vasto de possíveis
 6. **BRENO DE GODOY SANTIAGO**
 
 
-# **Entregas**
+## 📦 **Entregas**
 
-## **Entrega 01**
+<details>
+<summary><strong>🎯 Entrega 01</strong></summary>
+
+### Histórias de Usuário
 🔗 [- Link para o PDF das histórias](https://cdn.discordapp.com/attachments/1474450792898629889/1480373954962264105/documentacao_das_historias.pdf?ex=69af712e&is=69ae1fae&hm=31d3dfd1a6e9750184095e6f258ed63ad76a77729e14af8b2372173a393fa860&)
 
+### Jira
+[📋 Link para Backlog e Sprint](https://cdn.discordapp.com/attachments/1474450113509457932/1480386384576647291/image.png?ex=69af7cc2&is=69ae2b42&hm=0200432bcf05f2c1f3bb8c991416c976e74c7323cd5a0f478bef04206270dc66)
 
-📋 [- Backlog e sprint](https://cdn.discordapp.com/attachments/1474450113509457932/1480386384576647291/image.png?ex=69af7cc2&is=69ae2b42&hm=0200432bcf05f2c1f3bb8c991416c976e74c7323cd5a0f478bef04206270dc66)
+### Quadro da Entrega
+[📄 Link para o Quadro](https://cdn.discordapp.com/attachments/1474450113509457932/1480384519701004288/image.png?ex=69af7b05&is=69ae2985&hm=5a2bfc88cfd0b14cd88499afc50a6cb015624a3b108bb922d054cf3d8b7a3b1c)
 
+### Figma
+[📲 Link para o protótipo Lo-Fi](https://www.figma.com/board/vSDqHps0Z33oV9mkjktN6I/Projeto---Smart-Mall?node-id=0-1&p=f&t=eDLrNBHWh9KLbcQ5-0) 
 
-📄 [- Quadro Entrega 1](https://cdn.discordapp.com/attachments/1474450113509457932/1480384519701004288/image.png?ex=69af7b05&is=69ae2985&hm=5a2bfc88cfd0b14cd88499afc50a6cb015624a3b108bb922d054cf3d8b7a3b1c)
-
-
-📲 [- Figma Board Protótipo](https://www.figma.com/board/vSDqHps0Z33oV9mkjktN6I/Projeto---Smart-Mall?node-id=0-1&p=f&t=eDLrNBHWh9KLbcQ5-0) 
-
-
+</details>
