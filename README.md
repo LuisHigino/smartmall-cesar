@@ -28,8 +28,7 @@ A ideia de shopping se dá uma vez que nos abre um leque bem vasto de possíveis
 ### Figma
 [📲 Link para o protótipo Lo-Fi](https://www.figma.com/board/vSDqHps0Z33oV9mkjktN6I/Projeto---Smart-Mall?node-id=0-1&p=f&t=eDLrNBHWh9KLbcQ5-0)
 
-
 ### Vídeo do Protótipo Lo-Fi
-[🔗 Link para o vídeo](https://youtu.be/3lOqPjQoRvk)
+[🔗 Link para o vídeo](https://youtu.be/fkxZygw4R_Q)
 
 </details>
