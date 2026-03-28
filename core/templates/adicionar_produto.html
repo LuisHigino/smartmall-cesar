@@ -4,19 +4,17 @@
 <head>
   <meta charset="UTF-8">
   <title>Gerenciamento - Catálogo</title>
+  <link rel="stylesheet" href="/css/adicionar_produto.css">
+
 </head>
 
 <body>
-
   <h1>Adicionar Produto</h1>
-  <form>
+  <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Cadastrar Produto</button>
+    <a href={% url 'painel_catalogo' %}>Cancelar</a>
   </form>
-
-
-
 </body>
-
 </html>
