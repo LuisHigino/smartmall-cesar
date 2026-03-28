@@ -1,3 +1,33 @@
 from django.db import models
 
-# Create your models here.
+class Produto(models.Model)
+    nome = models.CharField('Nome', max_lengt=200)
+    preco = models.DecimalField('Preco', max_digits=10, decimal_places=2)
+    descricao = models.TextField('Descrição', blank=True, null=True)
+
+    def __str__(self):
+        return self.nome
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
