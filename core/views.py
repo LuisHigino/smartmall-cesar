@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Produto 
-from .models import ProdutoForm 
+from .forms import ProdutoForm 
 
 def painel_catalogo(request):
     produtos = Produto.objects.all()
@@ -12,19 +12,24 @@ def adicionar_produto(request):
         if form.is_valid():
             form.save()
             return redirect('adicionar_produto')
-        else:
-            form = ProdutoForm()
+    else:
+        form = ProdutoForm()
         
-        contexto = {'form': form, 'acao': 'Adicionar'}
-        return render(request, 'adicionar_produto.html', {'form': form})
+    contexto = {'form': form, 'acao': 'Adicionar'}
+    return render(request, 'adicionar_produto.html', contexto)
 
 def editar_produto(request, id):
     produto = get_object_or_404(Produto, id=id)
     if request.method == 'POST':
-        produto.delete()
-        return redirect('painel_catalogo')
+        form = ProdutoForm(request.POST, instance=produto)
+        if form.is_valid():
+            form.save()
+            return redirect('painel_catalogo')
+    else:
+        form = ProdutoForm(instance=produto)           
 
-    return render(request, 'remover_produto.html', {'produto': produto})
+    contexto = {'form': form, 'acao': 'Editar'}
+    return render(request, 'adicionar_produto.html', contexto)
 
 def remover_produto(request, id):
     produto = get_object_or_404(Produto, id=id)
@@ -34,10 +39,4 @@ def remover_produto(request, id):
     
     return render(request, 'remover_produto.html', {'produto': produto})
 
-def catalogo(request):
-    produtos = Produto.objects.all()
 
-    contexto = {
-        'produtos': produtos
-    }
-    return render(request, 'core/catalogo.html', contexto)
