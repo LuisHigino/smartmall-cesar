@@ -1,13 +1,38 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-  <meta charset="UTF-8">
-  <title>Catálogo - SmartMall</title>
+    <meta charset="UTF-8">
+    <title>Painel do Catálogo</title>
+    <link rel="stylesheet" href="catalogo.css">
 </head>
-
 <body>
-  <h1>Gerenciamento de Catálogo</h1>
+    <h1>Gerenciamento de Catálogo</h1>
+    <a href="{% url 'adicionar_produto' %}" class="btn btn-add">+ Adicionar Novo Produto</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th>Estoque</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produto in produtos %}
+            <tr>
+                <td>{{ produto.nome }}</td>
+                <td>R$ {{ produto.preco }}</td>
+                <td>{{ produto.estoque }}</td>
+                <td>
+                    <a href="{% url 'editar_produto' produto.id %}" class="btn btn-edit">Editar</a>
+                    <a href="{% url 'remover_produto' produto.id %}" class="btn btn-del">Remover</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4">Nenhum produto cadastrado.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
-
 </html>
