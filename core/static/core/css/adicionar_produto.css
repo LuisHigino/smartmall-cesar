@@ -1,0 +1,4 @@
+button { padding: 10px; background-color: #28a745; color: white; border: none; cursor: pointer; }
+body {
+font-family: sans-serif; padding: 20px; max-width: 500px; margin: auto;}
+a { margin-left: 10px; text-decoration: none; color: #555; }
