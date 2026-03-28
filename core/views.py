@@ -2,8 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Produto 
 from .models import ProdutoForm 
 
-
-
 def painel_catalogo(request):
     produtos = Produto.objects.all()
     return render(request, 'catalogo.html', {'produtos': produtos})
@@ -19,6 +17,22 @@ def adicionar_produto(request):
         
         contexto = {'form': form, 'acao': 'Adicionar'}
         return render(request, 'adicionar_produto.html', {'form': form})
+
+def editar_produto(request, id):
+    produto = get_object_or_404(Produto, id=id)
+    if request.method == 'POST':
+        produto.delete()
+        return redirect('painel_catalogo')
+
+    return render(request, 'remover_produto.html', {'produto': produto})
+
+def remover_produto(request, id):
+    produto = get_object_or_404(Produto, id=id)
+    if request.method == 'POST':
+        produto.delete()
+        return redirect('painel_catalogo')
+    
+    return render(request, 'remover_produto.html', {'produto': produto})
 
 def catalogo(request):
     produtos = Produto.objects.all()
