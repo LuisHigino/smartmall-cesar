@@ -16,11 +16,19 @@
                 <th>Preço</th>
                 <th>Estoque</th>
                 <th>Ações</th>
+                <th>Imagem</th>
             </tr>
         </thead>
         <tbody>
             {% for produto in produtos %}
             <tr>
+                <td>
+                  {% if produto.imagem %}
+                    <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" width="60" height="60" style="object-fit: cover; border-radius: 5px;">
+                  {% else %}
+                    <p style="font-size: 10px; color: gray;">Sem foto</p>
+                  {% endif %}
+                </td>
                 <td>{{ produto.nome }}</td>
                 <td>R$ {{ produto.preco }}</td>
                 <td>{{ produto.estoque }}</td>
