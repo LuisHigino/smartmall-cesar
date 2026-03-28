@@ -1,3 +1,11 @@
 from django.shortcuts import render
+from .models import Produto 
 
-# Create your views here.
+def catalogo(request):
+    produtos = Produto.objects.all()
+
+    contexto = {
+        'produtos': produtos
+    }
+    return render(request, 'core/catalogo.html', contexto)
+
