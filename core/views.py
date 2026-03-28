@@ -1,6 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Produto 
 from .models import ProdutoForm 
+
+
+
+def painel_catalogo(request):
+    produtos = Produto.objects.all()
+    return render(request, 'catalogo.html', {'produtos': produtos})
 
 def adicionar_produto(request):
     if request.method == 'POST':
@@ -10,7 +16,8 @@ def adicionar_produto(request):
             return redirect('adicionar_produto')
         else:
             form = ProdutoForm()
-
+        
+        contexto = {'form': form, 'acao': 'Adicionar'}
         return render(request, 'adicionar_produto.html', {'form': form})
 
 def catalogo(request):
