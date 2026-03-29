@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Remover Loja</title>
+  <link rel="stylesheet" href="{% static 'core/css/remover_produto.css' %}">
+</head>
+<body>
+  <h1 style="color: #dc3545">Atenção</h1>
+  <p>Tem certeza que deseja remover a loja <strong>{{ loja.nome }}</strong>?</p>
+  <p>Ação não pode ser desfeita.</p>
+
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit">Sim, remover</button>
+    <a href="{% url 'painel_lojas' %}">Cancelar</a>
+  </form>
+</body>
+</html>

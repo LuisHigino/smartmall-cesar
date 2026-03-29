@@ -1,0 +1,17 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartMall - Home</title>
+    <link rel="stylesheet" href="{% static 'core/css/catalogo.css' %}">
+</head>
+<body>
+    <h1>Bem-vindo ao SmartMall</h1>
+    <ul>
+        <li><a href="{% url 'painel_catalogo' %}">Painel de Catálogo</a></li>
+        <li><a href="{% url 'painel_lojas' %}">Gestão de Lojas</a></li>
+        <li><a href="/admin/">Admin Django</a></li>
+    </ul>
+</body>
+</html>

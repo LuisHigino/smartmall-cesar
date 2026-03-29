@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastrar Loja</title>
+    <link rel="stylesheet" href="{% static 'core/css/adicionar_produto.css' %}">
+</head>
+<body>
+    <h1>{% if acao %}{{ acao }} Loja{% else %}Cadastrar Loja{% endif %}</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Salvar</button>
+        <a href="{% url 'painel_lojas' %}">Cancelar</a>
+    </form>
+
+</body>
+</html>
