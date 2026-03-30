@@ -43,9 +43,9 @@ A ideia de shopping se dá uma vez que nos abre um leque bem vasto de possíveis
 - ✅ Visualização de vitrines
 - ✅ Deploy em produção
 
-### 🌐 Link para o Deploy
+### 🌐 Deploy
 - **Aplicação em Desenvolvimento:**
-🔗 [Link para o Render](https://smartmall-web.onrender.com)
+🔗 [Link para o Deploy](https://smartmall-web.onrender.com)
 
 ### 📄 Quadro da Entrega
 - **Gestão do Projeto:**\
