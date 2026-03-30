@@ -14,7 +14,8 @@ def painel_catalogo(request):
 
 
 def home(request):
-    return render(request, 'home.html')
+    # Opção A: a home vira um redirect para a vitrine (perspectiva do cliente)
+    return redirect('vitrine')
 
 
 def vitrine(request):
@@ -39,7 +40,6 @@ def vitrine(request):
 def painel_lojas(request):
     lojas = Loja.objects.select_related('usuario', 'categoria').all()
     return render(request, 'lojas.html', {'lojas': lojas})
-
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
