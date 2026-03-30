@@ -52,6 +52,9 @@ A ideia de shopping se dá uma vez que nos abre um leque bem vasto de possíveis
 🔗 [Link para o Sprint](https://matheus-guerra-britto.atlassian.net/jira/software/projects/PF/boards/)\
 🔗 [Link para o Backlog](https://matheus-guerra-britto.atlassian.net/jira/software/projects/PF/boards/)
 
+### 🐛 Controle de Issues
+- **Issue/Bug Tracker Atualizado:**
+
 ### 🎥 Apresentação 
 - **Screen Cast:**
 🔗 [Link para o Screen Cast](https://youtube.com/)
