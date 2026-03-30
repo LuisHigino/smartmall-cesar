@@ -50,7 +50,7 @@ A ideia de shopping se dá uma vez que nos abre um leque bem vasto de possíveis
 ### 📄 Quadro da Entrega
 - **Gestão do Projeto:**\
 🔗 [Link para o Sprint](https://matheus-guerra-britto.atlassian.net/jira/software/projects/PF/boards/34)\
-🔗 [Link para o Backlog](https://matheus-guerra-britto.atlassian.net/jira/software/projects/PF/boards/34/backlog?epics=visible)\
+🔗 [Link para o Backlog](https://matheus-guerra-britto.atlassian.net/jira/software/projects/PF/boards/34/backlog?epics=visible)
 
 - **Print do Backlog e do Quadro do Jira**\
   <img width="1526" height="809" alt="Image" src="https://github.com/user-attachments/assets/87ac3bae-3b2f-4830-a2bb-00f38bcc3217" />\
