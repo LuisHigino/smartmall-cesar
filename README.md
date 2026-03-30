@@ -63,7 +63,7 @@ A ideia de shopping se dá uma vez que nos abre um leque bem vasto de possíveis
 
 ### 🎥 Apresentação 
 - **Screen Cast:**\
-🔗 [Link para o Screen Cast](https://youtube.com/)
+🔗 [Link para o Screen Cast](https://youtu.be/Yd_DlDZFqZA)
 
 ### 📋 Documentação
 - **Relatório de Programação em Par:**\
