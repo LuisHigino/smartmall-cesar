@@ -54,7 +54,7 @@ A ideia de shopping se dá uma vez que nos abre um leque bem vasto de possíveis
 
 ### 🐛 Controle de Issues
 - **Issue/Bug Tracker Atualizado:**
-- <img width="1264" height="318" alt="image" src="https://github.com/user-attachments/assets/4a3ccd2f-2c51-4cc2-9e64-f2475f3379ae" />
+  <img width="1264" height="318" alt="image" src="https://github.com/user-attachments/assets/4a3ccd2f-2c51-4cc2-9e64-f2475f3379ae" />
 
 
 ### 🎥 Apresentação 
