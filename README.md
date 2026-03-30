@@ -34,7 +34,7 @@ A ideia de shopping se dá uma vez que nos abre um leque bem vasto de possíveis
 </details>
 
 <details>
-<summary><strong>🎯 Entrega 02 - Primeiras Implementações</strong></summary>
+<summary><strong>💻 Entrega 02 - Primeiras Implementações</strong></summary>
 
 ### ✅ Funcionidades Implementadas: 
 - ✅ Sistema de cadastro de lojas
