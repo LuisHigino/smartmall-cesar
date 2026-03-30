@@ -3,7 +3,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.utils.crypto import get_random_string
-from .models import Produto, Loja
+
+from .models import Produto, Loja, Categoria
 from .forms import ProdutoForm, LojaForm
 
 
@@ -16,10 +17,27 @@ def home(request):
     return render(request, 'home.html')
 
 
+def vitrine(request):
+    """
+    Vitrine pública de lojas, com filtro por categoria (?categoria=<id>).
+    """
+    categorias = Categoria.objects.all()
+    categoria_id = request.GET.get('categoria')
+
+    lojas = Loja.objects.select_related('categoria').all()
+    if categoria_id:
+        lojas = lojas.filter(categoria_id=categoria_id)
+
+    return render(request, 'vitrine.html', {
+        'categorias': categorias,
+        'lojas': lojas,
+    })
+
+
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def painel_lojas(request):
-    lojas = Loja.objects.select_related('usuario').all()
+    lojas = Loja.objects.select_related('usuario', 'categoria').all()
     return render(request, 'lojas.html', {'lojas': lojas})
 
 
@@ -79,15 +97,15 @@ def remover_loja(request, id):
 
 def adicionar_produto(request):
     if request.method == 'POST':
-        form = ProdutoForm(request.POST, request.FILES) 
+        form = ProdutoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('painel_catalogo')
     else:
-        form = ProdutoForm()        
+        form = ProdutoForm()
     contexto = {'form': form, 'acao': 'Adicionar'}
     return render(request, 'adicionar_produto.html', contexto)
-    
+
 
 def editar_produto(request, id):
     produto = get_object_or_404(Produto, id=id)
@@ -97,16 +115,16 @@ def editar_produto(request, id):
             form.save()
             return redirect('painel_catalogo')
     else:
-        form = ProdutoForm(instance=produto)           
-    
+        form = ProdutoForm(instance=produto)
+
     contexto = {'form': form, 'acao': 'Editar'}
     return render(request, 'adicionar_produto.html', contexto)
-    
+
 
 def remover_produto(request, id):
     produto = get_object_or_404(Produto, id=id)
     if request.method == 'POST':
         produto.delete()
         return redirect('painel_catalogo')
-        
+
     return render(request, 'remover_produto.html', {'produto': produto})

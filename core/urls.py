@@ -4,6 +4,9 @@ from . import views
 urlpatterns = [
     path('', views.home, name='home'),
 
+    # NOVO: vitrine pública
+    path('vitrine/', views.vitrine, name='vitrine'),
+
     path('catalogo/', views.painel_catalogo, name='painel_catalogo'),
     path('catalogo/adicionar/', views.adicionar_produto, name='adicionar_produto'),
     path('catalogo/editar/<int:id>/', views.editar_produto, name='editar_produto'),
