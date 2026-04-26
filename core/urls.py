@@ -7,7 +7,7 @@ urlpatterns = [
     
     # Autenticação
     path('login/', views.CustomLoginView.as_view(template_name='registration/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='vitrine'), name='logout'),
+    path('logout/',auth_views.LogoutView.as_view(template_name='registrarion/logout.html'),name='logout'),
     path('registro-lojista/', views.registrar_lojista, name='registrar_lojista'),
     
     # Vitrine pública
