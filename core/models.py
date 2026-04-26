@@ -2,17 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Produto(models.Model):
-    nome = models.CharField('Nome', max_length=200)
-    preco = models.DecimalField('Preco', max_digits=10, decimal_places=2)
-    estoque = models.IntegerField('Estoque', default=0)
-    descricao = models.TextField('Descrição', blank=True, null=True)
-    imagem = models.ImageField('Imagem', upload_to='produtos/', blank=True, null=True)
-
-    def __str__(self):
-        return self.nome
-
-
 class Categoria(models.Model):
     nome = models.CharField('Nome', max_length=100, unique=True)
 
@@ -38,7 +27,6 @@ class Loja(models.Model):
     )
     criado_em = models.DateTimeField('Criado em', auto_now_add=True)
 
-    # NOVO: categoria (vitrine)
     categoria = models.ForeignKey(
         Categoria,
         on_delete=models.SET_NULL,
@@ -54,4 +42,25 @@ class Loja(models.Model):
         ordering = ['nome']
 
     def __str__(self):
+        return self.nome
+
+
+class Produto(models.Model):
+    nome = models.CharField('Nome', max_length=200)
+    preco = models.DecimalField('Preco', max_digits=10, decimal_places=2)
+    estoque = models.IntegerField('Estoque', default=0)
+    descricao = models.TextField('Descrição', blank=True, null=True)
+    imagem = models.ImageField('Imagem', upload_to='produtos/', blank=True, null=True)
+    loja = models.ForeignKey(
+        'Loja',
+        on_delete=models.CASCADE,
+        related_name='produtos',
+        verbose_name='Loja',
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        if self.loja:
+            return f"{self.nome} ({self.loja.nome})"
         return self.nome

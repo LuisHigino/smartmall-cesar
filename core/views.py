@@ -2,10 +2,21 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.auth import login as auth_login, logout as auth_logout
+from django.contrib.auth.views import LoginView
 from django.utils.crypto import get_random_string
 
 from .models import Produto, Loja, Categoria
-from .forms import ProdutoForm, LojaForm
+from .forms import ProdutoForm, LojaForm, LojistaRegistrationForm
+
+
+class CustomLoginView(LoginView):
+    def get_success_url(self):
+        if self.request.user.is_staff:
+            return '/admin-dashboard/'
+        elif hasattr(self.request.user, 'loja'):
+            return '/lojista/'
+        return '/vitrine/'
 
 
 def painel_catalogo(request):
@@ -96,6 +107,10 @@ def remover_loja(request, id):
 
 
 def adicionar_produto(request):
+    if not request.user.is_staff:
+        messages.error(request, 'Acesso restrito a administradores.')
+        return redirect('vitrine')
+    
     if request.method == 'POST':
         form = ProdutoForm(request.POST, request.FILES)
         if form.is_valid():
@@ -108,6 +123,10 @@ def adicionar_produto(request):
 
 
 def editar_produto(request, id):
+    if not request.user.is_staff:
+        messages.error(request, 'Acesso restrito a administradores.')
+        return redirect('vitrine')
+    
     produto = get_object_or_404(Produto, id=id)
     if request.method == 'POST':
         form = ProdutoForm(request.POST, request.FILES, instance=produto)
@@ -122,9 +141,152 @@ def editar_produto(request, id):
 
 
 def remover_produto(request, id):
+    if not request.user.is_staff:
+        messages.error(request, 'Acesso restrito a administradores.')
+        return redirect('vitrine')
+    
     produto = get_object_or_404(Produto, id=id)
     if request.method == 'POST':
         produto.delete()
         return redirect('painel_catalogo')
 
     return render(request, 'remover_produto.html', {'produto': produto})
+
+
+def registrar_lojista(request):
+    if request.method == 'POST':
+        form = LojistaRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Loja cadastrada com sucesso! Bem-vindo, {username}.')
+            # Faz login automaticamente após o registro
+            auth_login(request, user)
+            return redirect('lojista_dashboard')
+    else:
+        form = LojistaRegistrationForm()
+    
+    return render(request, 'registro_lojista.html', {'form': form})
+
+
+@login_required
+def lojista_dashboard(request):
+    # Verifica se o usuário tem uma loja associada
+    if not hasattr(request.user, 'loja'):
+        messages.error(request, 'Você não tem uma loja associada. Contate o administrador.')
+        return redirect('vitrine')
+    
+    loja = request.user.loja
+    produtos = loja.produtos.all()
+    
+    context = {
+        'loja': loja,
+        'produtos': produtos,
+        'total_produtos': produtos.count(),
+        'estoque_baixo': produtos.filter(estoque__lt=5).count(),
+    }
+    
+    return render(request, 'lojista_dashboard.html', context)
+
+
+@login_required
+def lojista_editar_perfil(request):
+    if not hasattr(request.user, 'loja'):
+        messages.error(request, 'Você não tem uma loja associada. Contate o administrador.')
+        return redirect('vitrine')
+    
+    loja = request.user.loja
+    
+    if request.method == 'POST':
+        form = LojaForm(request.POST, instance=loja)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Perfil da loja atualizado com sucesso!')
+            return redirect('lojista_dashboard')
+    else:
+        form = LojaForm(instance=loja)
+    
+    return render(request, 'lojista_editar_perfil.html', {'form': form, 'loja': loja})
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def admin_dashboard(request):
+    total_lojas = Loja.objects.count()
+    total_produtos = Produto.objects.count()
+    total_categorias = Categoria.objects.count()
+    
+    # Lojistas recentes (últimos 5)
+    lojas_recentes = Loja.objects.select_related('usuario', 'categoria').order_by('-criado_em')[:5]
+    
+    context = {
+        'total_lojas': total_lojas,
+        'total_produtos': total_produtos,
+        'total_categorias': total_categorias,
+        'lojas_recentes': lojas_recentes,
+    }
+    
+    return render(request, 'admin_dashboard.html', context)
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def gerenciar_lojas(request):
+    lojas = Loja.objects.select_related('usuario', 'categoria').all()
+    return render(request, 'gerenciar_lojas.html', {'lojas': lojas})
+
+
+@login_required
+def lojista_adicionar_produto(request):
+    if not hasattr(request.user, 'loja'):
+        messages.error(request, 'Você não tem uma loja associada.')
+        return redirect('vitrine')
+    
+    if request.method == 'POST':
+        form = ProdutoForm(request.POST, request.FILES)
+        if form.is_valid():
+            produto = form.save(commit=False)
+            produto.loja = request.user.loja
+            produto.save()
+            messages.success(request, 'Produto cadastrado com sucesso!')
+            return redirect('lojista_dashboard')
+    else:
+        form = ProdutoForm()
+    
+    return render(request, 'lojista_produto_form.html', {'form': form, 'acao': 'Adicionar'})
+
+
+@login_required
+def lojista_editar_produto(request, id):
+    if not hasattr(request.user, 'loja'):
+        messages.error(request, 'Você não tem uma loja associada.')
+        return redirect('vitrine')
+    
+    produto = get_object_or_404(Produto, id=id, loja=request.user.loja)
+    
+    if request.method == 'POST':
+        form = ProdutoForm(request.POST, request.FILES, instance=produto)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Produto atualizado com sucesso!')
+            return redirect('lojista_dashboard')
+    else:
+        form = ProdutoForm(instance=produto)
+    
+    return render(request, 'lojista_produto_form.html', {'form': form, 'acao': 'Editar'})
+
+
+@login_required
+def lojista_remover_produto(request, id):
+    if not hasattr(request.user, 'loja'):
+        messages.error(request, 'Você não tem uma loja associada.')
+        return redirect('vitrine')
+    
+    produto = get_object_or_404(Produto, id=id, loja=request.user.loja)
+    
+    if request.method == 'POST':
+        produto.delete()
+        messages.success(request, 'Produto removido com sucesso!')
+        return redirect('lojista_dashboard')
+    
+    return render(request, 'lojista_produto_confirm_delete.html', {'produto': produto})

@@ -13,6 +13,13 @@
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f5f7fb;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    main {
+      flex: 1;
     }
 
     /* HEADER */
@@ -172,7 +179,7 @@
 
     /* FOOTER */
     footer {
-      margin-top: 40px;
+      margin-top: auto;
       padding: 20px;
       text-align: center;
       background: linear-gradient(to right, #ff7a00, #0477d6);
@@ -193,10 +200,18 @@
     <input class="search" type="text" placeholder="Buscar lojas..." />
 
     <nav class="menu">
-      <a href="/">Home</a>
-      <a href="/lojas/">Lojas</a>
-      <a href="/categorias/">Categorias</a>
-      <a href="/usuario/">Usuário</a>
+      <a href="{% url 'vitrine' %}">Home</a>
+      {% if user.is_authenticated %}
+        {% if user.is_staff %}
+          <a href="{% url 'admin_dashboard' %}">Meu Painel</a>
+        {% elif user.loja %}
+          <a href="{% url 'lojista_dashboard' %}">Minha Loja</a>
+        {% endif %}
+        <a href="{% url 'logout' %}">Sair</a>
+      {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'registrar_lojista' %}">Cadastre-se</a>
+      {% endif %}
     </nav>
   </header>
 
