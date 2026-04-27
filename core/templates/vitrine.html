@@ -43,14 +43,38 @@
     }
 
     /* BUSCA CENTRAL */
-    .search {
+    .search-form {
       flex: 2;
       max-width: 400px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .search {
+      flex: 1;
       height: 38px;
       padding: 0 12px;
-      border-radius: 10px;
+      border-radius: 10px 0 0 10px;
       border: 1px solid #ff7a00;
+      border-right: none;
       background: #fff;
+      font-size: 14px;
+    }
+
+    .search-btn {
+      height: 38px;
+      padding: 0 15px;
+      border-radius: 0 10px 10px 0;
+      border: 1px solid #ff7a00;
+      background: #ff7a00;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .search-btn:hover {
+      background: #e66a00;
     }
 
     /* MENU DIREITA */
@@ -182,6 +206,35 @@
       font-weight: bold;
     }
 
+    /* GRID DE PRODUTOS */
+    .grid-produtos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card-produto {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .preco {
+      font-size: 18px;
+      color: #ff7a00;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .sem-resultados {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+      font-size: 16px;
+    }
+
     /* FOOTER */
     footer {
       margin-top: auto;
@@ -204,7 +257,10 @@
       </a>
     </h1>
 
-    <input class="search" type="text" placeholder="Buscar lojas..." />
+    <form method="GET" action="{% url 'vitrine' %}" class="search-form">
+      <input class="search" type="text" name="q" placeholder="Buscar lojas ou produtos..." value="{{ query|default:'' }}" />
+      <button type="submit" class="search-btn">Buscar</button>
+    </form>
 
     <nav class="menu">
       <a href="{% url 'vitrine' %}">Home</a>
@@ -221,6 +277,34 @@
       {% endif %}
     </nav>
   </header>
+
+  <!-- RESULTADOS DA BUSCA -->
+  {% if query %}
+    {% if produtos_encontrados %}
+    <h1 class="titulo-categorias">Produtos encontrados para "{{ query }}"</h1>
+    <div class="grid-produtos">
+      {% for produto in produtos_encontrados %}
+        <div class="card-produto">
+          <div class="card-body">
+            <h2 class="title">{{ produto.nome }}</h2>
+            <p class="meta">{{ produto.descricao|truncatechars:80 }}</p>
+            <p class="meta">Loja: <strong>{{ produto.loja.nome }}</strong></p>
+            {% if produto.preco %}
+            <p class="preco">R$ {{ produto.preco }}</p>
+            {% endif %}
+            <div class="cta-row">
+              <a class="cta" href="{% url 'detalhe_loja' produto.loja.id %}">Ver loja</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="sem-resultados">
+      <p>Nenhum produto encontrado para "{{ query }}"</p>
+    </div>
+    {% endif %}
+  {% endif %}
 
   <!-- CATEGORIAS -->
   <h1 class="titulo-categorias">Categorias</h1>

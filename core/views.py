@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth.views import LoginView
 from django.utils.crypto import get_random_string
+from django.db.models import Q
 
 from .models import Produto, Loja, Categoria
 from .forms import ProdutoForm, LojaForm, LojistaRegistrationForm
@@ -37,18 +38,40 @@ def home(request):
 
 def vitrine(request):
     """
-    Vitrine pública de lojas, com filtro por categoria (?categoria=<id>).
+    Vitrine pública de lojas, com filtro por categoria (?categoria=<id>)
+    e busca por nome de loja ou produto (?q=...).
     """
     categorias = Categoria.objects.all()
     categoria_id = request.GET.get('categoria')
+    query = request.GET.get('q', '').strip()
 
     lojas = Loja.objects.select_related('categoria').all()
+    
+    # Filtro por categoria
     if categoria_id:
         lojas = lojas.filter(categoria_id=categoria_id)
+    
+    # Filtro por busca de lojas (nome)
+    if query:
+        lojas = lojas.filter(
+            Q(nome__icontains=query) |
+            Q(descricao__icontains=query)
+        )
+
+    # Buscar produtos se houver query
+    produtos_encontrados = []
+    if query:
+        produtos_encontrados = Produto.objects.select_related('loja').filter(
+            Q(nome__icontains=query) |
+            Q(descricao__icontains=query) |
+            Q(categoria__nome__icontains=query)
+        )[:20]  # Limitar a 20 resultados
 
     return render(request, 'vitrine.html', {
         'categorias': categorias,
         'lojas': lojas,
+        'query': query,
+        'produtos_encontrados': produtos_encontrados,
     })
 
 
