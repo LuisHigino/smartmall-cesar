@@ -19,6 +19,12 @@ class CustomLoginView(LoginView):
         return '/vitrine/'
 
 
+def logout_view(request):
+    from django.contrib.auth import logout as auth_logout
+    auth_logout(request)
+    return render(request, 'registration/logout.html')
+
+
 def painel_catalogo(request):
     produtos = Produto.objects.all()
     return render(request, 'catalogo.html', {'produtos': produtos})
