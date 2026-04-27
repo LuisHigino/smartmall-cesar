@@ -87,8 +87,8 @@ A ideia de shopping se dá uma vez que nos abre um leque bem vasto de possíveis
 🔗 [Link para o Backlog](https://matheus-guerra-britto.atlassian.net/jira/software/projects/PF/boards/34/backlog?epics=visible)
 
 - **Print do Backlog e do Quadro do Jira**\
-  <img width="1526" height="809" alt="Image" src="" />\
-  <img width="1506" height="956" alt="Image" src="" />
+  <img width="1518" height="699" alt="Image" src="https://github.com/user-attachments/assets/aa403448-5dd3-4b1e-8b90-347c0499c8b5" />\
+  <img width="1814" height="1010" alt="Image" src="https://github.com/user-attachments/assets/f7c850e9-39a2-470c-bdc9-c420588e33f4" />
 
 ### 🐛 Controle de Issues
 - **Issue/Bug Tracker Atualizado:**
