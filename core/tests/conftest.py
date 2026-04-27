@@ -1,6 +1,7 @@
 """
 Configurações e fixtures para testes E2E com Selenium.
 """
+import time
 import pytest
 from django.contrib.auth.models import User
 
@@ -13,13 +14,14 @@ def _setup_db(db):
     pass
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope='session')
 def browser():
-    """Cria o driver do Selenium para cada teste."""
+    """Cria um único driver do Selenium para toda a sessão de testes."""
     from selenium import webdriver
     from selenium.webdriver.chrome.options import Options
     
     options = Options()
+    # options.add_argument('--headless')  # Comentado para ver o navegador
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--disable-gpu')
@@ -28,7 +30,26 @@ def browser():
     driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(10)
     yield driver
+    # Fecha o navegador após todos os testes
     driver.quit()
+
+
+@pytest.fixture(autouse=True, scope='function')
+def manage_tabs(browser):
+    """Abre uma nova aba para cada teste e fecha após a execução."""
+    # Abre nova aba em branco
+    browser.execute_script("window.open('');")
+    # Muda o foco para a nova aba
+    browser.switch_to.window(browser.window_handles[-1])
+    time.sleep(1)
+    yield
+    # Pausa para visualizar resultado do teste
+    time.sleep(5)
+    # Fecha a aba atual
+    browser.close()
+    # Volta para a primeira aba se ainda houver abas abertas
+    if browser.window_handles:
+        browser.switch_to.window(browser.window_handles[0])
 
 
 @pytest.fixture(scope='function')
