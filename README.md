@@ -78,8 +78,12 @@ A ideia de shopping se dá uma vez que nos abre um leque bem vasto de possíveis
 - ✅ Busca por produtos
 - ✅ Detalhamento de itens
 - ✅ Autenticação de lojista
-- ✅ Testes E2E [----] 
-- ✅ Testes E2E [----]
+- ✅ Testes E2E de autenticação (login, logout, registro)
+- ✅ Testes E2E de lojista
+- ✅ Testes E2E de vitrine
+- ✅ Testes E2E de administração
+- ✅ Testes E2E de permissões
+
 
 ### 📄 Quadro da Entrega
 - **Gestão do Projeto:**\
