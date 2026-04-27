@@ -92,8 +92,7 @@ A ideia de shopping se dá uma vez que nos abre um leque bem vasto de possíveis
 
 ### 🐛 Controle de Issues
 - **Issue/Bug Tracker Atualizado:**
-  <img width="1264" height="318" alt="image" src="" />
-
+  <img width="1267" height="511" alt="image" src="https://github.com/user-attachments/assets/abc6333a-1c34-4c85-8fe5-da281034a648" />
 
 ### 🎥 Apresentação 
 - **Screen Cast:**\
