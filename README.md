@@ -78,8 +78,12 @@ A ideia de shopping se dá uma vez que nos abre um leque bem vasto de possíveis
 - ✅ Busca por produtos
 - ✅ Detalhamento de itens
 - ✅ Autenticação de lojista
-- ✅ Testes E2E [----] 
-- ✅ Testes E2E [----]
+- ✅ Testes E2E de autenticação (login, logout, registro)
+- ✅ Testes E2E de lojista
+- ✅ Testes E2E de vitrine
+- ✅ Testes E2E de administração
+- ✅ Testes E2E de permissões
+
 
 ### 📄 Quadro da Entrega
 - **Gestão do Projeto:**\
@@ -87,17 +91,17 @@ A ideia de shopping se dá uma vez que nos abre um leque bem vasto de possíveis
 🔗 [Link para o Backlog](https://matheus-guerra-britto.atlassian.net/jira/software/projects/PF/boards/34/backlog?epics=visible)
 
 - **Print do Backlog e do Quadro do Jira**\
-  <img width="1526" height="809" alt="Image" src="" />\
-  <img width="1506" height="956" alt="Image" src="" />
+  <img width="1518" height="699" alt="Image" src="https://github.com/user-attachments/assets/aa403448-5dd3-4b1e-8b90-347c0499c8b5" />\
+  <img width="1814" height="1010" alt="Image" src="https://github.com/user-attachments/assets/f7c850e9-39a2-470c-bdc9-c420588e33f4" />
 
 ### 🐛 Controle de Issues
 - **Issue/Bug Tracker Atualizado:**
-  <img width="1264" height="318" alt="image" src="" />
-
+  <img width="1267" height="511" alt="image" src="https://github.com/user-attachments/assets/abc6333a-1c34-4c85-8fe5-da281034a648" />
 
 ### 🎥 Apresentação 
 - **Screen Cast:**\
-🔗 [Link para o Screen Cast]()
+🔗 [Link para o screen cast de novas funcionalidades]()\
+🔗 [Link para o screen cast dos testes E2E]()
 
 ### 📋 Documentação
 - **Relatório de Programação em Par:**\
