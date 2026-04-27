@@ -100,7 +100,7 @@ A ideia de shopping se dá uma vez que nos abre um leque bem vasto de possíveis
 
 ### 🎥 Apresentação 
 - **Screen Cast:**\
-🔗 [Link para o screen cast de novas funcionalidades]()
+🔗 [Link para o screen cast de novas funcionalidades]()\
 🔗 [Link para o screen cast dos testes E2E]()
 
 ### 📋 Documentação
