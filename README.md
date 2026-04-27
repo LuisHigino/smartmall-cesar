@@ -77,7 +77,7 @@ A ideia de shopping se dá uma vez que nos abre um leque bem vasto de possíveis
 ### ✅ Funcionidades Implementadas: 
 - ✅ Busca por produtos
 - ✅ Detalhamento de itens
-- ✅ Interface de lojista
+- ✅ Autenticação de lojista
 - ✅ Testes E2E [----] 
 - ✅ Testes E2E [----]
 
