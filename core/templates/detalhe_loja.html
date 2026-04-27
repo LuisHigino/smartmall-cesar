@@ -102,6 +102,11 @@
       color: #0b2a5a;
     }
 
+    .logo a {
+    text-decoration: none;
+    color: inherit;
+    }
+
     .price {
       font-size: 16px;
       color: #ff7a00;
@@ -114,6 +119,13 @@
         object-fit: cover;
         margin-top: 10px;
         border-radius: 8px;
+    }
+    .description{
+        font-size: 14px;
+        color: #555;
+        margin-top: 8px;
+        line-height: 1.4;
+
     }
     .empty {
       padding: 20px;
@@ -136,7 +148,9 @@
   <!-- HEADER -->
   <header class="topo">
     <h1 class="logo">
-      Smart<span class="mall">Mall</span>
+       <a href="{% url 'vitrine' %}">
+            Smart<span class="mall">Mall</span>
+        </a>
     </h1>
 
     <nav class="menu">
@@ -169,7 +183,11 @@
             {% if produto.imagem %}
             <img src="{{ produto.imagem.url }}" class="produto-img">
             {% endif %}
+            {% if produto.descricao %}
+            <p class="descricao">{{ produto.descricao }}</p>
+            {% endif %}
           </div>
+
         </div>
       {% endfor %}
     {% else %}

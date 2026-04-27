@@ -70,3 +70,37 @@ A ideia de shopping se dá uma vez que nos abre um leque bem vasto de possíveis
 🔗 [Link para o relatório](https://docs.google.com/document/d/1Yo5ENeY9-u8R38xkobqNAhEtLM3zdIDv_lSyA-5Yq2I/edit?usp=sharing)
 
 </details>
+
+<details>
+<summary><strong>💻 Entrega 03 - Testes E2E e Novas Funcionalidades</strong></summary>
+
+### ✅ Funcionidades Implementadas: 
+- ✅ Busca por produtos
+- ✅ Detalhamento de itens
+- ✅ Autenticação de lojista
+- ✅ Testes E2E [----] 
+- ✅ Testes E2E [----]
+
+### 📄 Quadro da Entrega
+- **Gestão do Projeto:**\
+🔗 [Link para o Sprint](https://matheus-guerra-britto.atlassian.net/jira/software/projects/PF/boards/34)\
+🔗 [Link para o Backlog](https://matheus-guerra-britto.atlassian.net/jira/software/projects/PF/boards/34/backlog?epics=visible)
+
+- **Print do Backlog e do Quadro do Jira**\
+  <img width="1526" height="809" alt="Image" src="" />\
+  <img width="1506" height="956" alt="Image" src="" />
+
+### 🐛 Controle de Issues
+- **Issue/Bug Tracker Atualizado:**
+  <img width="1264" height="318" alt="image" src="" />
+
+
+### 🎥 Apresentação 
+- **Screen Cast:**\
+🔗 [Link para o Screen Cast]()
+
+### 📋 Documentação
+- **Relatório de Programação em Par:**\
+🔗 [Link para o relatório](https://docs.google.com/document/d/1Yo5ENeY9-u8R38xkobqNAhEtLM3zdIDv_lSyA-5Yq2I/edit?usp=sharing)
+
+</details>
