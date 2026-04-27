@@ -115,6 +115,13 @@
         margin-top: 10px;
         border-radius: 8px;
     }
+    .description{
+        font-size: 14px;
+        color: #555;
+        margin-top: 8px;
+        line-height: 1.4;
+
+    }
     .empty {
       padding: 20px;
       color: #666;
@@ -169,7 +176,11 @@
             {% if produto.imagem %}
             <img src="{{ produto.imagem.url }}" class="produto-img">
             {% endif %}
+            {% if produto.descricao %}
+            <p class="descricao">{{ produto.descricao }}</p>
+            {% endif %}
           </div>
+
         </div>
       {% endfor %}
     {% else %}
