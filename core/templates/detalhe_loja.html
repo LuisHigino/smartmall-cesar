@@ -1,0 +1,186 @@
+{% load static %}
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{{ loja.nome }} - SmartMall</title>
+
+  <style>
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    /* HEADER (igual vitrine) */
+    .topo {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      border-bottom: 3px solid #ff7a00;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 24px;
+      color: #ff7a00;
+      font-weight: bold;
+      flex: 1;
+    }
+
+    .mall {
+      color: #1e66ff;
+    }
+
+    .menu {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      gap: 30px;
+    }
+
+    .menu a {
+      text-decoration: none;
+      color: #ff7a00;
+      font-weight: 600;
+    }
+
+    /* TÍTULO DA LOJA */
+    .loja-header {
+      padding: 20px;
+    }
+
+    .loja-header h1 {
+      font-size: 36px;
+      color: #ff7a00;
+      margin: 0;
+    }
+
+    .loja-header p {
+      color: #666;
+      margin-top: 5px;
+    }
+
+    /* GRID DE PRODUTOS */
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      width: 250px;
+      border-radius: 12px;
+      background: #fff;
+      border: 1px solid #ddd;
+      overflow: hidden;
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .card-body {
+      padding: 15px;
+    }
+
+    .title {
+      margin: 0;
+      font-size: 18px;
+      color: #0b2a5a;
+    }
+
+    .price {
+      font-size: 16px;
+      color: #ff7a00;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+    .produto-img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        margin-top: 10px;
+        border-radius: 8px;
+    }
+    .empty {
+      padding: 20px;
+      color: #666;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 20px;
+      text-align: center;
+      background: linear-gradient(to right, #ff7a00, #0477d6);
+      color: white;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="topo">
+    <h1 class="logo">
+      Smart<span class="mall">Mall</span>
+    </h1>
+
+    <nav class="menu">
+      <a href="{% url 'vitrine' %}">Home</a>
+      <a href="{% url 'logout' %}">Sair</a>
+    </nav>
+  </header>
+
+  <!-- INFO DA LOJA -->
+  <div class="loja-header">
+    <h1>{{ loja.nome }}</h1>
+    <p>
+      Categoria:
+      {% if loja.categoria %}
+        {{ loja.categoria.nome }}
+      {% else %}
+        Sem categoria
+      {% endif %}
+    </p>
+  </div>
+
+  <!-- PRODUTOS -->
+  <main class="grid">
+    {% if produtos %}
+      {% for produto in produtos %}
+        <div class="card">
+          <div class="card-body">
+            <h2 class="title">{{ produto.nome }}</h2>
+            <p class="price">R$ {{ produto.preco }}</p>
+            {% if produto.imagem %}
+            <img src="{{ produto.imagem.url }}" class="produto-img">
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="empty">Esta loja ainda não possui produtos.</p>
+    {% endif %}
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>© SmartMall</div>
+  </footer>
+
+</body>
+</html>

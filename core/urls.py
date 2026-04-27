@@ -34,4 +34,8 @@ urlpatterns = [
     path('lojas/adicionar/', views.cadastrar_loja, name='cadastrar_loja'),
     path('lojas/editar/<int:id>/', views.editar_loja, name='editar_loja'),
     path('lojas/remover/<int:id>/', views.remover_loja, name='remover_loja'),
+
+    #ver loja
+    path('loja/<int:loja_id>/', views.detalhe_loja, name='detalhe_loja'),
+   
 ]

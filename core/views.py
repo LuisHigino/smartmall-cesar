@@ -290,3 +290,13 @@ def lojista_remover_produto(request, id):
         return redirect('lojista_dashboard')
     
     return render(request, 'lojista_produto_confirm_delete.html', {'produto': produto})
+
+
+def detalhe_loja(request, loja_id):
+    loja = get_object_or_404(Loja, id=loja_id)
+    produtos = Produto.objects.filter(loja=loja)
+
+    return render(request, 'detalhe_loja.html', {
+        'loja': loja,
+        'produtos': produtos
+     })
