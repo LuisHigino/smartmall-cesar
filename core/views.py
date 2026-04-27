@@ -64,25 +64,12 @@ def cadastrar_loja(request):
     if request.method == 'POST':
         form = LojaForm(request.POST)
         if form.is_valid():
-            loja = form.save(commit=False)
-            cnpj = form.cleaned_data['cnpj']
-            responsavel = form.cleaned_data['responsavel']
-
-            username = cnpj.replace('.', '').replace('/', '').replace('-', '')
-            senha_aleatoria = get_random_string(10)
-            usuario_loja = User.objects.create_user(
-                username=username,
-                password=senha_aleatoria,
-                first_name=responsavel,
-                is_active=True,
-            )
-            loja.usuario = usuario_loja
-            loja.save()
+            form.save()
             messages.success(request, 'Loja cadastrada com sucesso')
             return redirect('painel_lojas')
     else:
         form = LojaForm()
-
+    
     return render(request, 'cadastrar_loja.html', {'form': form})
 
 
@@ -112,15 +99,14 @@ def remover_loja(request, id):
     return render(request, 'remover_loja.html', {'loja': loja})
 
 
+@login_required
+@user_passes_test(lambda u: u.is_staff)
 def adicionar_produto(request):
-    if not request.user.is_staff:
-        messages.error(request, 'Acesso restrito a administradores.')
-        return redirect('vitrine')
-    
     if request.method == 'POST':
         form = ProdutoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Produto cadastrado com sucesso!')
             return redirect('painel_catalogo')
     else:
         form = ProdutoForm()
@@ -128,6 +114,8 @@ def adicionar_produto(request):
     return render(request, 'adicionar_produto.html', contexto)
 
 
+@login_required
+@user_passes_test(lambda u: u.is_staff)
 def editar_produto(request, id):
     if not request.user.is_staff:
         messages.error(request, 'Acesso restrito a administradores.')
@@ -138,10 +126,11 @@ def editar_produto(request, id):
         form = ProdutoForm(request.POST, request.FILES, instance=produto)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Produto atualizado com sucesso!')
             return redirect('painel_catalogo')
     else:
         form = ProdutoForm(instance=produto)
-
+    
     contexto = {'form': form, 'acao': 'Editar'}
     return render(request, 'adicionar_produto.html', contexto)
 
@@ -163,11 +152,11 @@ def registrar_lojista(request):
     if request.method == 'POST':
         form = LojistaRegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'Loja cadastrada com sucesso! Bem-vindo, {username}.')
             # Faz login automaticamente após o registro
-            auth_login(request, user)
+            auth_login(request, form.instance)
             return redirect('lojista_dashboard')
     else:
         form = LojistaRegistrationForm()
