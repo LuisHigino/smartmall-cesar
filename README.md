@@ -1,3 +1,7 @@
+<p align="center">
+<img width="333" height="333" alt="SmartMall" src="https://github.com/user-attachments/assets/261a5fb7-d983-48b5-9959-b5da91ceeb23" />
+</p>
+
 # **Smart Mall**
 
 Propomos a ideia de um **Smart Mall**, Shopping inteligente(e-commerce); onde a ideia parte da perspectiva de você ter um shopping na palma de sua mão(mobile ou desktop) e possa usufruir dos serviços dele sem sair de casa.Uma Loja virtual, mas num ecossistema de um shopping.
