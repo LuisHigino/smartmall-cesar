@@ -1,31 +1,24 @@
-{% extends "core/base.html" %}
-{% load static %}
-
-{% block title %}Editar Perfil - SmartMall{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'core/css/pages/forms.css' %}">
-{% endblock %}
-
-{% block content %}
+{% extends "core/base.html" %} {% load static %} {% block title %}Editar Perfil
+- SmartMall{% endblock %} {% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/pages/forms.css' %}" />
+{% endblock %} {% block content %}
 <main class="container">
     <section class="form-card">
         <h1>Editar Dados da Loja</h1>
 
-        {% if messages %}
-            {% for message in messages %}
-                <div class="messages">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
+        {% if messages %} {% for message in messages %}
+        <div class="messages">{{ message }}</div>
+        {% endfor %} {% endif %}
 
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %} {{ form.as_p }}
             <button type="submit">Salvar Alterações</button>
         </form>
 
         <div class="form-links">
-            <p><a href="{% url 'lojista_dashboard' %}">Voltar ao Dashboard</a></p>
+            <p>
+                <a href="{% url 'lojista_dashboard' %}">Voltar ao Dashboard</a>
+            </p>
         </div>
     </section>
 </main>

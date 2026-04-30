@@ -1,63 +1,63 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 
 
 class Categoria(models.Model):
-    nome = models.CharField('Nome', max_length=100, unique=True)
+    nome = models.CharField("Nome", max_length=100, unique=True)
 
     class Meta:
-        verbose_name = 'Categoria'
-        verbose_name_plural = 'Categorias'
-        ordering = ['nome']
+        verbose_name = "Categoria"
+        verbose_name_plural = "Categorias"
+        ordering = ["nome"]
 
     def __str__(self):
         return self.nome
 
 
 class Loja(models.Model):
-    nome = models.CharField('Nome da Loja', max_length=255)
-    cnpj = models.CharField('CNPJ', max_length=18, unique=True)
-    responsavel = models.CharField('Responsável', max_length=255)
+    nome = models.CharField("Nome da Loja", max_length=255)
+    cnpj = models.CharField("CNPJ", max_length=18, unique=True)
+    responsavel = models.CharField("Responsável", max_length=255)
     usuario = models.OneToOneField(
-        User,
-        on_delete=models.PROTECT,
-        null=True,
-        blank=True,
-        related_name='loja'
+        User, on_delete=models.PROTECT, null=True, blank=True, related_name="loja"
     )
-    criado_em = models.DateTimeField('Criado em', auto_now_add=True)
+    criado_em = models.DateTimeField("Criado em", auto_now_add=True)
 
     categoria = models.ForeignKey(
         Categoria,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='lojas',
-        verbose_name='Categoria'
+        related_name="lojas",
+        verbose_name="Categoria",
+    )
+
+    imagem = models.ImageField(
+        "Imagem da loja", upload_to="lojas/", blank=True, null=True
     )
 
     class Meta:
-        verbose_name = 'Loja'
-        verbose_name_plural = 'Lojas'
-        ordering = ['nome']
+        verbose_name = "Loja"
+        verbose_name_plural = "Lojas"
+        ordering = ["nome"]
 
     def __str__(self):
         return self.nome
 
 
 class Produto(models.Model):
-    nome = models.CharField('Nome', max_length=200)
-    preco = models.DecimalField('Preco', max_digits=10, decimal_places=2)
-    estoque = models.IntegerField('Estoque', default=0)
-    descricao = models.TextField('Descrição', blank=True, null=True)
-    imagem = models.ImageField('Imagem', upload_to='produtos/', blank=True, null=True)
+    nome = models.CharField("Nome", max_length=200)
+    preco = models.DecimalField("Preco", max_digits=10, decimal_places=2)
+    estoque = models.IntegerField("Estoque", default=0)
+    descricao = models.TextField("Descrição", blank=True, null=True)
+    imagem = models.ImageField("Imagem", upload_to="produtos/", blank=True, null=True)
     loja = models.ForeignKey(
-        'Loja',
+        "Loja",
         on_delete=models.CASCADE,
-        related_name='produtos',
-        verbose_name='Loja',
+        related_name="produtos",
+        verbose_name="Loja",
         null=True,
-        blank=True
+        blank=True,
     )
 
     def __str__(self):

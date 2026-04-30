@@ -311,6 +311,23 @@
     cursor: pointer;
 }
 
+.store-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: #eef2f7;
+}
+
+.store-image--placeholder {
+    display: grid;
+    place-items: center;
+    color: #1e66ff;
+    font-size: 42px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #eef4ff, #fff4e8);
+}
+
 @media (max-width: 760px) {
     .public-header {
         grid-template-columns: 1fr;

@@ -1,13 +1,7 @@
-{% extends "core/base.html" %}
-{% load static %}
-
-{% block title %}SmartMall - Vitrine{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'core/css/pages/public.css' %}">
-{% endblock %}
-
-{% block content %}
+{% extends "core/base.html" %} {% load static %} {% block title %}SmartMall -
+Vitrine{% endblock %} {% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/pages/public.css' %}" />
+{% endblock %} {% block content %}
 <div class="page-shell">
     <header class="site-header site-header--light public-header">
         <a class="brand" href="{% url 'vitrine' %}">Smart<span>Mall</span></a>
@@ -22,7 +16,7 @@
                     placeholder="Buscar lojas ou produtos..."
                     value="{{ query|default:'' }}"
                     autocomplete="off"
-                >
+                />
                 <button type="submit" class="search-btn">Buscar</button>
             </form>
             <div class="search-suggestions" id="search-suggestions"></div>
@@ -30,89 +24,115 @@
 
         <nav class="nav-menu">
             <a href="{% url 'vitrine' %}">Home</a>
-            {% if user.is_authenticated %}
-                {% if user.is_staff %}
-                    <a href="{% url 'admin_dashboard' %}">Meu Painel</a>
-                {% elif user.loja %}
-                    <a href="{% url 'lojista_dashboard' %}">Minha Loja</a>
-                {% endif %}
-                <a href="{% url 'logout' %}">Sair</a>
+            {% if user.is_authenticated %} {% if user.is_staff %}
+            <a href="{% url 'admin_dashboard' %}">Meu Painel</a>
+            {% elif user.loja %}
+            <a href="{% url 'lojista_dashboard' %}">Minha Loja</a>
+            {% endif %}
+            <a href="{% url 'logout' %}">Sair</a>
             {% else %}
-                <a href="{% url 'login' %}">Login</a>
-                <a href="{% url 'registrar_lojista' %}">Cadastre-se</a>
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'registrar_lojista' %}">Cadastre-se</a>
             {% endif %}
         </nav>
     </header>
 
     {% if query %}
-        <section class="search-results" aria-label="Resultados da busca">
-            {% if produtos_encontrados or lojas %}
-                <h1 class="page-title">Resultados para "{{ query }}"</h1>
+    <section class="search-results" aria-label="Resultados da busca">
+        {% if produtos_encontrados or lojas %}
+        <h1 class="page-title">Resultados para "{{ query }}"</h1>
 
-                {% if produtos_encontrados %}
-                    <h2 class="section-title">Produtos</h2>
-                    <div class="product-result-grid">
-                        {% for produto in produtos_encontrados %}
-                            <article class="product-result-card">
-                                <div class="card-body">
-                                    <h3 class="card-title">{{ produto.nome }}</h3>
-                                    <p class="meta">{{ produto.descricao|truncatechars:80 }}</p>
-                                    <p class="meta">Loja: <strong>{{ produto.loja.nome }}</strong></p>
-                                    {% if produto.preco %}
-                                        <p class="price">R$ {{ produto.preco }}</p>
-                                    {% endif %}
-                                    <div class="cta-row">
-                                        <a class="btn btn-small" href="{% url 'detalhe_loja' produto.loja.id %}">Ver loja</a>
-                                    </div>
-                                </div>
-                            </article>
-                        {% endfor %}
+        {% if produtos_encontrados %}
+        <h2 class="section-title">Produtos</h2>
+        <div class="product-result-grid">
+            {% for produto in produtos_encontrados %}
+            <article class="product-result-card">
+                <div class="card-body">
+                    <h3 class="card-title">{{ produto.nome }}</h3>
+                    <p class="meta">{{ produto.descricao|truncatechars:80 }}</p>
+                    <p class="meta">
+                        Loja: <strong>{{ produto.loja.nome }}</strong>
+                    </p>
+                    {% if produto.preco %}
+                    <p class="price">R$ {{ produto.preco }}</p>
+                    {% endif %}
+                    <div class="cta-row">
+                        <a
+                            class="btn btn-small"
+                            href="{% url 'detalhe_loja' produto.loja.id %}"
+                            >Ver loja</a
+                        >
                     </div>
-                {% endif %}
-            {% else %}
-                <div class="no-results">
-                    <h2>Item não encontrado</h2>
-                    <p>Não encontramos nenhuma loja ou produto com <strong>"{{ query }}"</strong>.</p>
-                    <p>Tente buscar por outro termo ou navegue pelas categorias abaixo.</p>
                 </div>
-            {% endif %}
-        </section>
+            </article>
+            {% endfor %}
+        </div>
+        {% endif %} {% else %}
+        <div class="no-results">
+            <h2>Item não encontrado</h2>
+            <p>
+                Não encontramos nenhuma loja ou produto com
+                <strong>"{{ query }}"</strong>.
+            </p>
+            <p>
+                Tente buscar por outro termo ou navegue pelas categorias abaixo.
+            </p>
+        </div>
+        {% endif %}
+    </section>
     {% endif %}
 
     <h1 class="page-title">Categorias</h1>
 
     <section class="category-grid" aria-label="Categorias">
         {% for categoria in categorias %}
-            <a href="?categoria={{ categoria.id }}"
-               class="category-card {% if request.GET.categoria == categoria.id|stringformat:'s' %}active{% endif %}">
-                {{ categoria.nome }}
-                <small>{{ categoria.lojas.count }} lojas</small>
-            </a>
+        <a
+            href="?categoria={{ categoria.id }}"
+            class="category-card {% if request.GET.categoria == categoria.id|stringformat:'s' %}active{% endif %}"
+        >
+            {{ categoria.nome }}
+            <small>{{ categoria.lojas.count }} lojas</small>
+        </a>
         {% endfor %}
     </section>
 
     <main class="store-grid">
         {% for loja in lojas %}
-            <article class="store-card">
-                <div class="card-body">
-                    <h2 class="card-title">{{ loja.nome }}</h2>
-                    <p class="meta">
-                        Categoria:
-                        {% if loja.categoria %}
-                            {{ loja.categoria.nome }}
-                        {% else %}
-                            Sem categoria
-                        {% endif %}
-                    </p>
+        <article class="store-card">
+            {% if loja.imagem %}
+            <img
+                src="{{ loja.imagem.url }}"
+                class="store-image"
+                alt="Imagem da loja {{ loja.nome }}"
+            />
+            {% else %}
+            <div
+                class="store-image store-image--placeholder"
+                aria-
+                hidden="true"
+            >
+                {{ loja.nome|slice:":1" }}
+            </div>
+            {% endif %}
+            <div class="card-body">
+                <h2 class="card-title">{{ loja.nome }}</h2>
+                <p class="meta">
+                    Categoria: {% if loja.categoria %} {{ loja.categoria.nome }}
+                    {% else %} Sem categoria {% endif %}
+                </p>
 
-                    <div class="cta-row">
-                        <span>Aberta hoje</span>
-                        <a class="btn btn-small" href="{% url 'detalhe_loja' loja.id %}">Ver loja</a>
-                    </div>
+                <div class="cta-row">
+                    <span>Aberta hoje</span>
+                    <a
+                        class="btn btn-small"
+                        href="{% url 'detalhe_loja' loja.id %}"
+                        >Ver loja</a
+                    >
                 </div>
-            </article>
+            </div>
+        </article>
         {% empty %}
-            <p class="empty">Nenhuma loja disponível no momento.</p>
+        <p class="empty">Nenhuma loja disponível no momento.</p>
         {% endfor %}
     </main>
 
@@ -121,8 +141,6 @@
         <div>Shopping online de lojas parceiras</div>
     </footer>
 </div>
-{% endblock %}
-
-{% block extra_js %}
+{% endblock %} {% block extra_js %}
 <script src="{% static 'core/js/search-autocomplete.js' %}" defer></script>
 {% endblock %}

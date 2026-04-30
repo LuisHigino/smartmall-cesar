@@ -1,28 +1,22 @@
-{% extends "core/base.html" %}
-{% load static %}
-
-{% block title %}{% if acao %}{{ acao }} Loja{% else %}Cadastrar Loja{% endif %} - SmartMall{% endblock %}
-
+{% extends "core/base.html" %} {% load static %} {% block title %}{% if acao
+%}{{ acao }} Loja{% else %}Cadastrar Loja{% endif %} - SmartMall{% endblock %}
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'core/css/pages/forms.css' %}">
-{% endblock %}
-
-{% block content %}
+<link rel="stylesheet" href="{% static 'core/css/pages/forms.css' %}" />
+{% endblock %} {% block content %}
 <main class="container">
     <section class="form-card">
         <h1>{% if acao %}{{ acao }} Loja{% else %}Cadastrar Loja{% endif %}</h1>
 
         {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li class="{{ message.tags }}">{{ message }}</li>
-                {% endfor %}
-            </ul>
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
         {% endif %}
 
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %} {{ form.as_p }}
             <button type="submit">Salvar</button>
             <div class="form-links">
                 <a href="{% url 'painel_lojas' %}">Cancelar</a>
