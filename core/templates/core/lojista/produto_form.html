@@ -1,0 +1,26 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}{{ acao }} Produto - SmartMall{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/pages/forms.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="container">
+    <section class="form-card">
+        <h1>{{ acao }} Produto</h1>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">{{ acao }} Produto</button>
+        </form>
+
+        <div class="form-links">
+            <p><a href="{% url 'lojista_dashboard' %}">Voltar ao Dashboard</a></p>
+        </div>
+    </section>
+</main>
+{% endblock %}

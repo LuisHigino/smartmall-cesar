@@ -1,0 +1,75 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}SmartMall - Vitrine{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/pages/public.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-shell">
+    <header class="site-header site-header--light public-header">
+        <a class="brand" href="{% url 'vitrine' %}">Smart<span>Mall</span></a>
+
+        <input class="search" type="text" placeholder="Buscar lojas...">
+
+        <nav class="nav-menu">
+            <a href="{% url 'vitrine' %}">Home</a>
+            {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                    <a href="{% url 'admin_dashboard' %}">Meu Painel</a>
+                {% elif user.loja %}
+                    <a href="{% url 'lojista_dashboard' %}">Minha Loja</a>
+                {% endif %}
+                <a href="{% url 'logout' %}">Sair</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'registrar_lojista' %}">Cadastre-se</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <h1 class="page-title">Categorias</h1>
+
+    <section class="category-grid" aria-label="Categorias">
+        {% for categoria in categorias %}
+            <a href="?categoria={{ categoria.id }}"
+               class="category-card {% if request.GET.categoria == categoria.id|stringformat:'s' %}active{% endif %}">
+                {{ categoria.nome }}
+                <small>{{ categoria.lojas.count }} lojas</small>
+            </a>
+        {% endfor %}
+    </section>
+
+    <main class="store-grid">
+        {% for loja in lojas %}
+            <article class="store-card">
+                <div class="card-body">
+                    <h2 class="card-title">{{ loja.nome }}</h2>
+                    <p class="meta">
+                        Categoria:
+                        {% if loja.categoria %}
+                            {{ loja.categoria.nome }}
+                        {% else %}
+                            Sem categoria
+                        {% endif %}
+                    </p>
+
+                    <div class="cta-row">
+                        <span>Aberta hoje</span>
+                        <a class="btn btn-small" href="{% url 'detalhe_loja' loja.id %}">Ver loja</a>
+                    </div>
+                </div>
+            </article>
+        {% empty %}
+            <p class="empty">Nenhuma loja disponível no momento.</p>
+        {% endfor %}
+    </main>
+
+    <footer class="page-footer">
+        <div>© SmartMall</div>
+        <div>Shopping online de lojas parceiras</div>
+    </footer>
+</div>
+{% endblock %}

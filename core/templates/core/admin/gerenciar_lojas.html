@@ -1,0 +1,67 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Gerenciar Lojas - SmartMall{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/pages/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-shell">
+    <header class="site-header">
+        <a class="brand" href="{% url 'admin_dashboard' %}">SmartMall <span>Admin</span></a>
+        <nav class="nav-menu">
+            <span>Bem-vindo, {{ request.user.username }}</span>
+            <a href="{% url 'admin_dashboard' %}">Dashboard</a>
+            <a href="{% url 'admin_gerenciar_lojas' %}">Lojas</a>
+            <a href="{% url 'logout' %}">Sair</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="section-header">
+            <h2>Gerenciar Lojas</h2>
+            <a href="{% url 'cadastrar_loja' %}" class="btn">+ Cadastrar Nova Loja</a>
+        </div>
+
+        <section class="section">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>CNPJ</th>
+                            <th>Responsável</th>
+                            <th>Usuário</th>
+                            <th>Categoria</th>
+                            <th>Criado em</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for loja in lojas %}
+                            <tr>
+                                <td>{{ loja.nome }}</td>
+                                <td>{{ loja.cnpj }}</td>
+                                <td>{{ loja.responsavel }}</td>
+                                <td>{% if loja.usuario %}{{ loja.usuario.username }}{% else %}-{% endif %}</td>
+                                <td>{{ loja.categoria.nome|default:"-" }}</td>
+                                <td>{{ loja.criado_em|date:"d/m/Y" }}</td>
+                                <td class="actions">
+                                    <a href="{% url 'editar_loja' loja.id %}">Editar</a>
+                                    <a href="{% url 'remover_loja' loja.id %}" class="delete">Remover</a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="7" class="empty">Nenhuma loja cadastrada.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+{% endblock %}

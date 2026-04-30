@@ -1,0 +1,97 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Meu Negócio - SmartMall{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/pages/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-shell">
+    <header class="site-header">
+        <a class="brand" href="{% url 'lojista_dashboard' %}">SmartMall <span>Lojista</span></a>
+        <nav class="nav-menu">
+            <span>{{ request.user.username }}</span>
+            <a href="{% url 'lojista_dashboard' %}">Meu Negócio</a>
+            <a href="{% url 'lojista_editar_perfil' %}">Editar Perfil</a>
+            <a href="{% url 'logout' %}">Sair</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h2>Meu Negócio</h2>
+
+        <section class="section store-info">
+            <h3>{{ loja.nome }}</h3>
+            <p><strong>CNPJ:</strong> {{ loja.cnpj }}</p>
+            <p><strong>Responsável:</strong> {{ loja.responsavel }}</p>
+            <p><strong>Categoria:</strong> {{ loja.categoria.nome|default:"Não definida" }}</p>
+            <p><strong>Cadastrado em:</strong> {{ loja.criado_em|date:"d/m/Y" }}</p>
+            <a href="{% url 'lojista_editar_perfil' %}" class="btn btn-small">Editar Dados da Loja</a>
+        </section>
+
+        <section class="stats-grid" aria-label="Estatísticas da loja">
+            <div class="stat-card">
+                <div class="number">{{ total_produtos }}</div>
+                <div class="label">Produtos Cadastrados</div>
+            </div>
+            <div class="stat-card {% if estoque_baixo > 0 %}warning{% endif %}">
+                <div class="number">{{ estoque_baixo }}</div>
+                <div class="label">Estoque Baixo (&lt;5)</div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h3>Meus Produtos</h3>
+                <a href="{% url 'lojista_adicionar_produto' %}" class="btn">+ Novo Produto</a>
+            </div>
+
+            {% if produtos %}
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Preço</th>
+                                <th>Estoque</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for produto in produtos %}
+                                <tr>
+                                    <td>{{ produto.nome }}</td>
+                                    <td>R$ {{ produto.preco }}</td>
+                                    <td class="{% if produto.estoque < 5 %}low-stock{% endif %}">
+                                        {{ produto.estoque }}
+                                    </td>
+                                    <td class="actions">
+                                        <a href="{% url 'lojista_editar_produto' produto.id %}">Editar</a>
+                                        <a href="{% url 'lojista_remover_produto' produto.id %}" class="delete">Remover</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty">
+                    <p>Nenhum produto cadastrado ainda.</p>
+                    <p><a href="{% url 'lojista_adicionar_produto' %}" class="btn">Cadastrar Primeiro Produto</a></p>
+                </div>
+            {% endif %}
+        </section>
+
+        <section class="section">
+            <h3>Ações Rápidas</h3>
+            <div class="quick-actions">
+                <a href="{% url 'lojista_adicionar_produto' %}" class="btn">Adicionar Produto</a>
+                <a href="{% url 'lojista_editar_perfil' %}" class="btn btn-secondary">Editar Dados da Loja</a>
+                <a href="{% url 'vitrine' %}" class="btn btn-secondary">Ver Vitrine</a>
+            </div>
+        </section>
+    </main>
+</div>
+{% endblock %}

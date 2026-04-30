@@ -1,0 +1,24 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Remover Loja - SmartMall{% endblock %}
+{% block body_class %}centered-page{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/pages/forms.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="delete-card">
+    <h1>Atenção!</h1>
+    <p>Tem certeza que deseja remover a loja?</p>
+    <p class="entity-name">{{ loja.nome }}</p>
+    <p>Esta ação não pode ser desfeita.</p>
+
+    <form method="post" class="delete-actions">
+        {% csrf_token %}
+        <button type="submit" class="btn-danger">Sim, remover</button>
+        <a href="{% url 'painel_lojas' %}" class="btn btn-muted">Cancelar</a>
+    </form>
+</main>
+{% endblock %}

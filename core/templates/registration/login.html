@@ -1,41 +1,37 @@
+{% extends "core/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - SmartMall</title>
-    <link rel="stylesheet" href="{% static 'core/css/login.css' %}">
-</head>
-<body>
-    <div class="login-container">
-        <div class="logo">
-            Smart<span class="mall">Mall</span>
-        </div>
-        <h1>Entrar</h1>
-        
-        {% if form.errors %}
-        <div class="error-message">
-            Usuário ou senha incorretos.
-        </div>
-        {% endif %}
 
-        <form method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="id_username">Usuário</label>
-                <input type="text" name="username" id="id_username" required>
-            </div>
-            <div class="form-group">
-                <label for="id_password">Senha</label>
-                <input type="password" name="password" id="id_password" required>
-            </div>
-            <button type="submit">Entrar</button>
-        </form>
-        
-        <div class="links">
-            <p>Não tem uma conta? <a href="{% url 'registrar_lojista' %}">Cadastre sua loja</a></p>
-        </div>
+{% block title %}Login - SmartMall{% endblock %}
+{% block body_class %}centered-page{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/pages/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="auth-card form-card">
+    <div class="auth-logo">Smart<span>Mall</span></div>
+    <h1>Entrar</h1>
+
+    {% if form.errors %}
+        <div class="error-message">Usuário ou senha incorretos.</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            <label for="id_username">Usuário</label>
+            <input type="text" name="username" id="id_username" required>
+        </p>
+        <p>
+            <label for="id_password">Senha</label>
+            <input type="password" name="password" id="id_password" required>
+        </p>
+        <button type="submit">Entrar</button>
+    </form>
+
+    <div class="form-links">
+        <p>Não tem uma conta? <a href="{% url 'registrar_lojista' %}">Cadastre sua loja</a></p>
     </div>
-</body>
-</html>
+</main>
+{% endblock %}

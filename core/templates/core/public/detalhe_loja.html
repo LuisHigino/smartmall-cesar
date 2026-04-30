@@ -1,0 +1,85 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}{{ loja.nome }} - SmartMall{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/pages/public.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-shell">
+    <header class="site-header site-header--light">
+        <a class="brand" href="{% url 'vitrine' %}">Smart<span>Mall</span></a>
+
+        <nav class="nav-menu">
+            <a href="{% url 'vitrine' %}">Home</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}">Sair</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <section class="container">
+        <h1 class="page-title">{{ loja.nome }}</h1>
+        <p class="meta">
+            Categoria:
+            {% if loja.categoria %}
+                {{ loja.categoria.nome }}
+            {% else %}
+                Sem categoria
+            {% endif %}
+        </p>
+    </section>
+
+    <main class="product-grid">
+        {% if produtos %}
+            {% for produto in produtos %}
+                <article class="product-card">
+                    <button class="product-card-button" type="button"
+                            data-product-modal
+                            data-product-name="{{ produto.nome }}"
+                            data-product-price="{{ produto.preco }}"
+                            data-product-img="{% if produto.imagem %}{{ produto.imagem.url }}{% endif %}"
+                            data-product-desc="{{ produto.descricao }}">
+                        <div class="card-body">
+                            <h2 class="card-title">{{ produto.nome }}</h2>
+                            <p class="price">R$ {{ produto.preco }}</p>
+
+                            {% if produto.imagem %}
+                                <img src="{{ produto.imagem.url }}" class="product-image" alt="{{ produto.nome }}">
+                            {% endif %}
+
+                            {% if produto.descricao %}
+                                <p class="description">{{ produto.descricao }}</p>
+                            {% endif %}
+                        </div>
+                    </button>
+                </article>
+            {% endfor %}
+        {% else %}
+            <p class="empty">Esta loja ainda não possui produtos.</p>
+        {% endif %}
+    </main>
+
+    <footer class="page-footer">
+        <div>© SmartMall</div>
+    </footer>
+</div>
+
+<div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-nome">
+    <div class="modal-content">
+        <button class="modal-close" type="button" data-modal-close aria-label="Fechar">&times;</button>
+        <h2 id="modal-nome"></h2>
+        <p id="modal-preco"></p>
+        <img id="modal-img" class="modal-img" alt="">
+        <p id="modal-desc"></p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'core/js/produto-modal.js' %}" defer></script>
+{% endblock %}

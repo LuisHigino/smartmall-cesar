@@ -1,0 +1,85 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Admin Dashboard - SmartMall{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/pages/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-shell">
+    <header class="site-header">
+        <a class="brand" href="{% url 'admin_dashboard' %}">SmartMall <span>Admin</span></a>
+        <nav class="nav-menu">
+            <span>Bem-vindo, {{ request.user.username }}</span>
+            <a href="{% url 'admin_dashboard' %}">Dashboard</a>
+            <a href="{% url 'admin_gerenciar_lojas' %}">Lojas</a>
+            <a href="{% url 'logout' %}">Sair</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h2>Painel do Administrador</h2>
+
+        <section class="stats-grid" aria-label="Estatísticas">
+            <div class="stat-card">
+                <div class="number">{{ total_lojas }}</div>
+                <div class="label">Lojas Cadastradas</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">{{ total_produtos }}</div>
+                <div class="label">Total de Produtos</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">{{ total_categorias }}</div>
+                <div class="label">Categorias</div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h3>Lojas Recentes</h3>
+                <a href="{% url 'admin_gerenciar_lojas' %}" class="btn">Gerenciar Lojas</a>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>CNPJ</th>
+                            <th>Responsável</th>
+                            <th>Categoria</th>
+                            <th>Data de Cadastro</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for loja in lojas_recentes %}
+                            <tr>
+                                <td>{{ loja.nome }}</td>
+                                <td>{{ loja.cnpj }}</td>
+                                <td>{{ loja.responsavel }}</td>
+                                <td>{{ loja.categoria.nome|default:"-" }}</td>
+                                <td>{{ loja.criado_em|date:"d/m/Y" }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="5" class="empty">Nenhuma loja cadastrada.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section">
+            <h3>Ações Rápidas</h3>
+            <div class="quick-actions">
+                <a href="{% url 'admin_gerenciar_lojas' %}" class="btn">Gerenciar Lojas</a>
+                <a href="/admin/" class="btn btn-secondary">Painel Django Admin</a>
+                <a href="{% url 'vitrine' %}" class="btn btn-secondary">Ver Vitrine</a>
+            </div>
+        </section>
+    </main>
+</div>
+{% endblock %}

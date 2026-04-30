@@ -1,0 +1,25 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}{{ acao }} Produto - SmartMall{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/pages/forms.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="container">
+    <section class="form-card">
+        <h1>{{ acao|default:"Adicionar" }} Produto</h1>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">{{ acao|default:"Cadastrar" }} Produto</button>
+            <div class="form-links">
+                <a href="{% url 'painel_catalogo' %}">Cancelar</a>
+            </div>
+        </form>
+    </section>
+</main>
+{% endblock %}

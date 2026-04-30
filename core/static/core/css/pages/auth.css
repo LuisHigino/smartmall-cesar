@@ -1,0 +1,48 @@
+.auth-card {
+    width: min(420px, 100%);
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.auth-card h1,
+.auth-logo,
+.logout-card h1 {
+    color: #ff7a00;
+    text-align: center;
+}
+
+.auth-logo {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.auth-logo span {
+    color: #1e66ff;
+}
+
+.auth-card button[type="submit"] {
+    width: 100%;
+}
+
+.auth-card .help-text {
+    color: #666;
+    display: block;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.logout-card {
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.logout-card p {
+    color: #666;
+    margin-bottom: 20px;
+}

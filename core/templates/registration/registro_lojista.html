@@ -1,0 +1,84 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Cadastrar Loja - SmartMall{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/pages/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="container">
+    <section class="auth-card form-card">
+        <div class="auth-logo">Smart<span>Mall</span></div>
+        <h1>Cadastrar Minha Loja</h1>
+
+        {% if form.errors %}
+            <div class="error-list">
+                <ul>
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <p>
+                <label for="id_username">Usuário para Login *</label>
+                {{ form.username }}
+                <span class="help-text">Exatamente como deseja acessar sua conta</span>
+            </p>
+
+            <p>
+                <label for="id_email">E-mail *</label>
+                {{ form.email }}
+            </p>
+
+            <p>
+                <label for="id_password1">Senha *</label>
+                {{ form.password1 }}
+                <span class="help-text">{{ form.password1.help_text }}</span>
+            </p>
+
+            <p>
+                <label for="id_password2">Confirmar Senha *</label>
+                {{ form.password2 }}
+            </p>
+
+            <hr>
+
+            <p>
+                <label for="id_nome_loja">Nome da Loja *</label>
+                {{ form.nome_loja }}
+            </p>
+
+            <p>
+                <label for="id_cnpj">CNPJ *</label>
+                {{ form.cnpj }}
+            </p>
+
+            <p>
+                <label for="id_responsavel">Nome do Responsável *</label>
+                {{ form.responsavel }}
+            </p>
+
+            <p>
+                <label for="id_categoria">Categoria *</label>
+                {{ form.categoria }}
+            </p>
+
+            <button type="submit">Cadastrar Loja</button>
+        </form>
+
+        <div class="form-links">
+            <p>Já tem uma conta? <a href="{% url 'login' %}">Faça login</a></p>
+            <p><a href="{% url 'vitrine' %}">Voltar para Vitrine</a></p>
+        </div>
+    </section>
+</main>
+{% endblock %}

@@ -27,7 +27,7 @@ def logout_view(request):
 
 def painel_catalogo(request):
     produtos = Produto.objects.all()
-    return render(request, 'catalogo.html', {'produtos': produtos})
+    return render(request, 'core/admin/catalogo.html', {'produtos': produtos})
 
 
 def home(request):
@@ -46,7 +46,7 @@ def vitrine(request):
     if categoria_id:
         lojas = lojas.filter(categoria_id=categoria_id)
 
-    return render(request, 'vitrine.html', {
+    return render(request, 'core/public/vitrine.html', {
         'categorias': categorias,
         'lojas': lojas,
     })
@@ -56,7 +56,7 @@ def vitrine(request):
 @user_passes_test(lambda u: u.is_staff)
 def painel_lojas(request):
     lojas = Loja.objects.select_related('usuario', 'categoria').all()
-    return render(request, 'lojas.html', {'lojas': lojas})
+    return render(request, 'core/admin/lojas.html', {'lojas': lojas})
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
@@ -70,7 +70,7 @@ def cadastrar_loja(request):
     else:
         form = LojaForm()
     
-    return render(request, 'cadastrar_loja.html', {'form': form})
+    return render(request, 'core/admin/loja_form.html', {'form': form})
 
 
 @login_required
@@ -85,7 +85,7 @@ def editar_loja(request, id):
             return redirect('painel_lojas')
     else:
         form = LojaForm(instance=loja)
-    return render(request, 'cadastrar_loja.html', {'form': form, 'acao': 'Editar'})
+    return render(request, 'core/admin/loja_form.html', {'form': form, 'acao': 'Editar'})
 
 
 @login_required
@@ -96,7 +96,7 @@ def remover_loja(request, id):
         loja.delete()
         messages.success(request, 'Loja removida com sucesso')
         return redirect('painel_lojas')
-    return render(request, 'remover_loja.html', {'loja': loja})
+    return render(request, 'core/admin/loja_confirm_delete.html', {'loja': loja})
 
 
 @login_required
@@ -111,7 +111,7 @@ def adicionar_produto(request):
     else:
         form = ProdutoForm()
     contexto = {'form': form, 'acao': 'Adicionar'}
-    return render(request, 'adicionar_produto.html', contexto)
+    return render(request, 'core/admin/produto_form.html', contexto)
 
 
 @login_required
@@ -132,7 +132,7 @@ def editar_produto(request, id):
         form = ProdutoForm(instance=produto)
     
     contexto = {'form': form, 'acao': 'Editar'}
-    return render(request, 'adicionar_produto.html', contexto)
+    return render(request, 'core/admin/produto_form.html', contexto)
 
 
 def remover_produto(request, id):
@@ -145,7 +145,7 @@ def remover_produto(request, id):
         produto.delete()
         return redirect('painel_catalogo')
 
-    return render(request, 'remover_produto.html', {'produto': produto})
+    return render(request, 'core/admin/produto_confirm_delete.html', {'produto': produto})
 
 
 def registrar_lojista(request):
@@ -161,7 +161,7 @@ def registrar_lojista(request):
     else:
         form = LojistaRegistrationForm()
     
-    return render(request, 'registro_lojista.html', {'form': form})
+    return render(request, 'registration/registro_lojista.html', {'form': form})
 
 
 @login_required
@@ -181,7 +181,7 @@ def lojista_dashboard(request):
         'estoque_baixo': produtos.filter(estoque__lt=5).count(),
     }
     
-    return render(request, 'lojista_dashboard.html', context)
+    return render(request, 'core/lojista/dashboard.html', context)
 
 
 @login_required
@@ -201,7 +201,7 @@ def lojista_editar_perfil(request):
     else:
         form = LojaForm(instance=loja)
     
-    return render(request, 'lojista_editar_perfil.html', {'form': form, 'loja': loja})
+    return render(request, 'core/lojista/editar_perfil.html', {'form': form, 'loja': loja})
 
 
 @login_required
@@ -221,14 +221,14 @@ def admin_dashboard(request):
         'lojas_recentes': lojas_recentes,
     }
     
-    return render(request, 'admin_dashboard.html', context)
+    return render(request, 'core/admin/dashboard.html', context)
 
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def gerenciar_lojas(request):
     lojas = Loja.objects.select_related('usuario', 'categoria').all()
-    return render(request, 'gerenciar_lojas.html', {'lojas': lojas})
+    return render(request, 'core/admin/gerenciar_lojas.html', {'lojas': lojas})
 
 
 @login_required
@@ -248,7 +248,7 @@ def lojista_adicionar_produto(request):
     else:
         form = ProdutoForm()
     
-    return render(request, 'lojista_produto_form.html', {'form': form, 'acao': 'Adicionar'})
+    return render(request, 'core/lojista/produto_form.html', {'form': form, 'acao': 'Adicionar'})
 
 
 @login_required
@@ -268,7 +268,7 @@ def lojista_editar_produto(request, id):
     else:
         form = ProdutoForm(instance=produto)
     
-    return render(request, 'lojista_produto_form.html', {'form': form, 'acao': 'Editar'})
+    return render(request, 'core/lojista/produto_form.html', {'form': form, 'acao': 'Editar'})
 
 
 @login_required
@@ -284,14 +284,14 @@ def lojista_remover_produto(request, id):
         messages.success(request, 'Produto removido com sucesso!')
         return redirect('lojista_dashboard')
     
-    return render(request, 'lojista_produto_confirm_delete.html', {'produto': produto})
+    return render(request, 'core/lojista/produto_confirm_delete.html', {'produto': produto})
 
 
 def detalhe_loja(request, loja_id):
     loja = get_object_or_404(Loja, id=loja_id)
     produtos = Produto.objects.filter(loja=loja)
 
-    return render(request, 'detalhe_loja.html', {
+    return render(request, 'core/public/detalhe_loja.html', {
         'loja': loja,
         'produtos': produtos
      })
