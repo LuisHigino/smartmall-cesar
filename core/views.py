@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth.views import LoginView
 from django.utils.crypto import get_random_string
+from django.db.models import Q
+from django.http import JsonResponse
 
 from .models import Produto, Loja, Categoria
 from .forms import ProdutoForm, LojaForm, LojistaRegistrationForm
@@ -37,19 +39,86 @@ def home(request):
 
 def vitrine(request):
     """
-    Vitrine pública de lojas, com filtro por categoria (?categoria=<id>).
+    Vitrine pública de lojas, com filtro por categoria (?categoria=<id>)
+    e busca por nome de loja ou produto (?q=...).
     """
     categorias = Categoria.objects.all()
     categoria_id = request.GET.get('categoria')
+    query = request.GET.get('q', '').strip()
 
     lojas = Loja.objects.select_related('categoria').all()
+    
+    # Filtro por categoria
     if categoria_id:
         lojas = lojas.filter(categoria_id=categoria_id)
+    
+    # Filtro por busca de lojas (nome)
+    if query:
+        lojas = lojas.filter(
+            Q(nome__icontains=query)
+        )
+
+    # Buscar produtos se houver query
+    produtos_encontrados = []
+    if query:
+        produtos_encontrados = Produto.objects.select_related('loja', 'loja__categoria').filter(
+            Q(nome__icontains=query) |
+            Q(descricao__icontains=query) |
+            Q(loja__categoria__nome__icontains=query)
+        )[:20]  # Limitar a 20 resultados
 
     return render(request, 'core/public/vitrine.html', {
         'categorias': categorias,
         'lojas': lojas,
+        'query': query,
+        'produtos_encontrados': produtos_encontrados,
     })
+
+
+def busca_autocomplete(request):
+    """
+    View para autocomplete da busca em tempo real.
+    Retorna uma lista de lojas e produtos que correspondem à query.
+    """
+    query = request.GET.get('q', '').strip()
+    
+    if not query or len(query) < 2:
+        return JsonResponse({'results': []})
+    
+    # Buscar lojas
+    lojas = Loja.objects.filter(
+        Q(nome__icontains=query)
+    )[:5]
+    
+    # Buscar produtos
+    produtos = Produto.objects.select_related('loja').filter(
+        Q(nome__icontains=query)
+    )[:5]
+    
+    results = []
+    
+    # Adicionar lojas aos resultados
+    for loja in lojas:
+        results.append({
+            'type': 'loja',
+            'id': loja.id,
+            'name': loja.nome,
+            'category': loja.categoria.nome if loja.categoria else '',
+            'url': f'/loja/{loja.id}/'
+        })
+    
+    # Adicionar produtos aos resultados
+    for produto in produtos:
+        results.append({
+            'type': 'produto',
+            'id': produto.id,
+            'name': produto.nome,
+            'loja': produto.loja.nome if produto.loja else '',
+            'preco': str(produto.preco) if produto.preco else '',
+            'url': f'/loja/{produto.loja.id}/' if produto.loja else ''
+        })
+    
+    return JsonResponse({'results': results})
 
 
 @login_required

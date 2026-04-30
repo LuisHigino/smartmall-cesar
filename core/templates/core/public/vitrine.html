@@ -12,7 +12,21 @@
     <header class="site-header site-header--light public-header">
         <a class="brand" href="{% url 'vitrine' %}">Smart<span>Mall</span></a>
 
-        <input class="search" type="text" placeholder="Buscar lojas...">
+        <div class="search-container">
+            <form method="get" action="{% url 'vitrine' %}" class="search-form">
+                <input
+                    class="search"
+                    type="text"
+                    name="q"
+                    id="search-input"
+                    placeholder="Buscar lojas ou produtos..."
+                    value="{{ query|default:'' }}"
+                    autocomplete="off"
+                >
+                <button type="submit" class="search-btn">Buscar</button>
+            </form>
+            <div class="search-suggestions" id="search-suggestions"></div>
+        </div>
 
         <nav class="nav-menu">
             <a href="{% url 'vitrine' %}">Home</a>
@@ -29,6 +43,41 @@
             {% endif %}
         </nav>
     </header>
+
+    {% if query %}
+        <section class="search-results" aria-label="Resultados da busca">
+            {% if produtos_encontrados or lojas %}
+                <h1 class="page-title">Resultados para "{{ query }}"</h1>
+
+                {% if produtos_encontrados %}
+                    <h2 class="section-title">Produtos</h2>
+                    <div class="product-result-grid">
+                        {% for produto in produtos_encontrados %}
+                            <article class="product-result-card">
+                                <div class="card-body">
+                                    <h3 class="card-title">{{ produto.nome }}</h3>
+                                    <p class="meta">{{ produto.descricao|truncatechars:80 }}</p>
+                                    <p class="meta">Loja: <strong>{{ produto.loja.nome }}</strong></p>
+                                    {% if produto.preco %}
+                                        <p class="price">R$ {{ produto.preco }}</p>
+                                    {% endif %}
+                                    <div class="cta-row">
+                                        <a class="btn btn-small" href="{% url 'detalhe_loja' produto.loja.id %}">Ver loja</a>
+                                    </div>
+                                </div>
+                            </article>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="no-results">
+                    <h2>Item não encontrado</h2>
+                    <p>Não encontramos nenhuma loja ou produto com <strong>"{{ query }}"</strong>.</p>
+                    <p>Tente buscar por outro termo ou navegue pelas categorias abaixo.</p>
+                </div>
+            {% endif %}
+        </section>
+    {% endif %}
 
     <h1 class="page-title">Categorias</h1>
 
@@ -72,4 +121,8 @@
         <div>Shopping online de lojas parceiras</div>
     </footer>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'core/js/search-autocomplete.js' %}" defer></script>
 {% endblock %}

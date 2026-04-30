@@ -37,5 +37,8 @@ urlpatterns = [
 
     #ver loja
     path('loja/<int:loja_id>/', views.detalhe_loja, name='detalhe_loja'),
+    
+    # Busca autocomplete
+    path('busca/autocomplete/', views.busca_autocomplete, name='busca_autocomplete'),
    
 ]
