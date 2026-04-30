@@ -106,11 +106,7 @@ Vitrine{% endblock %} {% block extra_css %}
                 alt="Imagem da loja {{ loja.nome }}"
             />
             {% else %}
-            <div
-                class="store-image store-image--placeholder"
-                aria-
-                hidden="true"
-            >
+            <div class="store-image store-image--placeholder" aria-hidden="true">
                 {{ loja.nome|slice:":1" }}
             </div>
             {% endif %}

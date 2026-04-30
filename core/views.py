@@ -272,7 +272,7 @@ def lojista_dashboard(request):
 
 @login_required
 def lojista_editar_perfil(request):
-    if not hasattr(request.user, request.FILES, "loja"):
+    if not hasattr(request.user, "loja"):
         messages.error(
             request, "Você não tem uma loja associada. Contate o administrador."
         )
@@ -281,7 +281,7 @@ def lojista_editar_perfil(request):
     loja = request.user.loja
 
     if request.method == "POST":
-        form = LojaForm(request.POST, instance=loja)
+        form = LojaForm(request.POST, request.FILES, instance=loja)
         if form.is_valid():
             form.save()
             messages.success(request, "Perfil da loja atualizado com sucesso!")
