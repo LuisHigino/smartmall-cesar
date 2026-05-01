@@ -18,7 +18,21 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf import settings 
 from django.conf.urls.static import static
+from django.http import Http404
 from django.views.static import serve
+from pathlib import Path
+
+
+def serve_media_file(request, path):
+    media_root = Path(settings.MEDIA_ROOT)
+    if (media_root / path).exists():
+        return serve(request, path, document_root=media_root)
+
+    legacy_media_root = Path(settings.BASE_DIR) / 'media'
+    if legacy_media_root != media_root and (legacy_media_root / path).exists():
+        return serve(request, path, document_root=legacy_media_root)
+
+    raise Http404('Media file not found')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,7 +45,6 @@ elif settings.SERVE_MEDIA_FILES:
     urlpatterns += [
         re_path(
             r'^media/(?P<path>.*)$',
-            serve,
-            {'document_root': settings.MEDIA_ROOT},
+            serve_media_file,
         ),
     ]
