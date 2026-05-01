@@ -16,6 +16,7 @@ import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+PROJECT_ROOT = BASE_DIR.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -111,7 +112,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.environ.get('MEDIA_ROOT', str(PROJECT_ROOT / 'media'))
+SERVE_MEDIA_FILES = os.environ.get('SERVE_MEDIA_FILES', 'true').lower() in {
+    '1',
+    'true',
+    'yes',
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
