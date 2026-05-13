@@ -1,0 +1,25 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Meu Carrinho</h1>
+
+    {% if produtos %}
+        {% for produto in produtos %}
+            <div class="panel">
+                <h2>{{ produto.nome }}</h2>
+
+                <p>
+                    R$ {{ produto.preco }}
+                </p>
+
+                {% if produto.imagem %}
+                    <img src="{{ produto.imagem.url }}" width="150">
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Seu carrinho está vazio.</p>
+    {% endif %}
+</div>
+{% endblock %}

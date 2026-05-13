@@ -392,3 +392,26 @@ def detalhe_loja(request, loja_id):
     return render(
         request, "core/public/detalhe_loja.html", {"loja": loja, "produtos": produtos}
     )
+
+
+
+def carrinho(request):
+    carrinho = request.session.get('carrinho', [])
+
+    produtos = Produto.objects.filter(id__in=carrinho)
+
+    return render(request, 'core/public/carrinho.html', {
+        'produtos': produtos
+    })
+
+
+def adicionar_carrinho(request, produto_id):
+    produto = get_object_or_404(Produto, id=produto_id)
+
+    carrinho = request.session.get('carrinho', [])
+
+    carrinho.append(produto.id)
+
+    request.session['carrinho'] = carrinho
+
+    return redirect('carrinho')

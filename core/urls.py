@@ -12,6 +12,8 @@ urlpatterns = [
     
     # Vitrine pública
     path('vitrine/', views.vitrine, name='vitrine'),
+    path('carrinho/', views.carrinho, name='carrinho'),
+    path('carrinho/adicionar/<int:produto_id>/',views.adicionar_carrinho,name='adicionar_carrinho'),
     
     # Dashboard do Lojista
     path('lojista/', views.lojista_dashboard, name='lojista_dashboard'),

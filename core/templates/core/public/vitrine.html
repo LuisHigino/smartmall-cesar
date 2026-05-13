@@ -24,6 +24,7 @@ Vitrine{% endblock %} {% block extra_css %}
 
         <nav class="nav-menu">
             <a href="{% url 'vitrine' %}">Home</a>
+            <a href="{% url 'carrinho' %}">Carrinho</a>
             {% if user.is_authenticated %} {% if user.is_staff %}
             <a href="{% url 'admin_dashboard' %}">Meu Painel</a>
             {% elif user.loja %}
