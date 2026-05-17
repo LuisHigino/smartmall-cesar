@@ -7,16 +7,22 @@
     {% if produtos %}
         {% for produto in produtos %}
             <div class="panel">
-                <h2>{{ produto.nome }}</h2>
+            <h2>{{ produto.nome }}</h2>
 
-                <p>
-                    R$ {{ produto.preco }}
-                </p>
+            <p>
+                R$ {{ produto.preco }}
+            </p>
 
-                {% if produto.imagem %}
-                    <img src="{{ produto.imagem.url }}" width="150">
-                {% endif %}
-            </div>
+            {% if produto.imagem %}
+                <img src="{{ produto.imagem.url }}" width="150">
+            {% endif %}
+
+            <br><br>
+
+            <a href="{% url 'remover_carrinho' produto.id %}" class="btn btn-danger">
+                Remover
+            </a>
+        </div>
         {% endfor %}
     {% else %}
         <p>Seu carrinho está vazio.</p>

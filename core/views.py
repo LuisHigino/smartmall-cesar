@@ -415,3 +415,13 @@ def adicionar_carrinho(request, produto_id):
     request.session['carrinho'] = carrinho
 
     return redirect('carrinho')
+
+def remover_carrinho(request, produto_id):
+    carrinho = request.session.get('carrinho', [])
+
+    if produto_id in carrinho:
+        carrinho.remove(produto_id)
+
+    request.session['carrinho'] = carrinho
+
+    return redirect('carrinho')
