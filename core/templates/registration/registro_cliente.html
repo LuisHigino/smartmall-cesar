@@ -20,6 +20,10 @@
         </ul>
         {% endif %}
 
+        {% if form.errors %}
+            <div class="messages error">Por favor, corrija os erros abaixo. (A senha pode estar muito fraca!)</div>
+        {% endif %}
+
         <form method="post">
             {% csrf_token %} 
             {{ form.as_p }} <button type="submit">Cadastrar</button>
