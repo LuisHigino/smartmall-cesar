@@ -25,6 +25,16 @@ def wait_for_url(browser, fragment, timeout=3):
         time.sleep(0.1)
 
 
+def wait_for_product_removed(product_id, timeout=3):
+    """Aguarda a remoção assíncrona disparada pelo navegador."""
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        if not Produto.objects.filter(id=product_id).exists():
+            return True
+        time.sleep(0.1)
+    return False
+
+
 class TestAdminDashboard:
     """Testes do dashboard do admin."""
 
@@ -119,9 +129,8 @@ class TestCatalogoAdmin:
         browser.get(f'{live_server_url}/catalogo/remover/{prod_id}/')
         
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
-        wait_for_url(browser, 'catalogo')
         
-        assert not Produto.objects.filter(id=prod_id).exists()
+        assert wait_for_product_removed(prod_id)
 
 
 class TestAdminAcesso:
