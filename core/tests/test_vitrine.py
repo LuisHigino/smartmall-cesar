@@ -51,12 +51,13 @@ class TestVitrine:
         
         assert f'categoria={categoria.id}' in browser.current_url
 
-    def test_redirect_home_para_vitrine(self, browser, live_server_url):
-        """Teste: Acessar / redireciona para /vitrine/."""
+    def test_home_carrega(self, browser, live_server_url):
+        """Teste: Acessar / carrega a página inicial."""
         browser.get(f'{live_server_url}/')
         time.sleep(2)
-        
-        assert '/vitrine/' in browser.current_url
+
+        assert 'Um shopping que cabe no seu bolso' in browser.page_source
+        assert 'Ir para a vitrine' in browser.page_source
 
 
 class TestNavbar:

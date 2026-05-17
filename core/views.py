@@ -35,8 +35,7 @@ def painel_catalogo(request):
 
 
 def home(request):
-    # Opção A: a home vira um redirect para a vitrine (perspectiva do cliente)
-    return redirect("vitrine")
+    return render(request, "core/public/home.html")
 
 
 def vitrine(request):
