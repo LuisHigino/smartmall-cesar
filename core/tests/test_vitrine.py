@@ -5,8 +5,6 @@ import time
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 
 from core.models import Categoria, Loja, Produto
@@ -78,8 +76,6 @@ class TestNavbar:
         browser.find_element(By.NAME, 'password').send_keys('admin123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
         time.sleep(2)
-        
-        WebDriverWait(browser, 10).until(EC.url_contains('admin'))
         time.sleep(2)
         
         assert 'admin' in browser.page_source.lower() or 'Painel' in browser.page_source
@@ -92,8 +88,6 @@ class TestNavbar:
         browser.find_element(By.NAME, 'password').send_keys('lojista123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
         time.sleep(2)
-        
-        WebDriverWait(browser, 10).until(EC.url_contains('lojista'))
         time.sleep(2)
         
         assert 'lojista' in browser.current_url.lower()

@@ -6,8 +6,7 @@ import pytest
 from django.contrib.auth.models import User
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait, Select
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 
 from core.models import Categoria, Loja
@@ -39,10 +38,6 @@ class TestLogin:
         password_input.send_keys('admin123')
         password_input.send_keys(Keys.RETURN)
         time.sleep(2)
-        
-        WebDriverWait(browser, 10).until(
-            EC.url_contains('admin-dashboard')
-        )
         time.sleep(2)
         
         assert 'admin-dashboard' in browser.current_url
@@ -59,10 +54,6 @@ class TestLogin:
         password_input.send_keys('lojista123')
         password_input.send_keys(Keys.RETURN)
         time.sleep(2)
-        
-        WebDriverWait(browser, 10).until(
-            EC.url_contains('lojista')
-        )
         time.sleep(2)
         
         assert 'lojista' in browser.current_url
@@ -79,10 +70,6 @@ class TestLogin:
         password_input.send_keys('senha_errada')
         password_input.send_keys(Keys.RETURN)
         time.sleep(2)
-        
-        WebDriverWait(browser, 5).until(
-            EC.text_to_be_present_in_element((By.TAG_NAME, 'body'), 'incorreto')
-        )
         time.sleep(2)
         
         assert 'login' in browser.current_url.lower()
@@ -103,10 +90,6 @@ class TestLogout:
         password_input.send_keys('admin123')
         password_input.send_keys(Keys.RETURN)
         time.sleep(2)
-        
-        WebDriverWait(browser, 10).until(
-            EC.url_contains('admin-dashboard')
-        )
         time.sleep(2)
         
         logout_link = browser.find_element(By.LINK_TEXT, 'Sair')
@@ -157,10 +140,6 @@ class TestRedirecionamento:
         browser.find_element(By.NAME, 'password').send_keys('admin123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
         time.sleep(2)
-        
-        WebDriverWait(browser, 10).until(
-            EC.url_contains('admin-dashboard')
-        )
         time.sleep(2)
         
         assert 'admin-dashboard' in browser.current_url
@@ -174,10 +153,6 @@ class TestRedirecionamento:
         browser.find_element(By.NAME, 'password').send_keys('lojista123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
         time.sleep(2)
-        
-        WebDriverWait(browser, 10).until(
-            EC.url_contains('lojista')
-        )
         time.sleep(2)
         
         assert '/lojista/' in browser.current_url

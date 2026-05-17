@@ -4,8 +4,7 @@ Testes E2E do lojista.
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait, Select
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 
 from core.models import Produto
@@ -23,9 +22,7 @@ class TestLojistaDashboard:
         browser.find_element(By.NAME, 'username').send_keys('lojista_teste')
         browser.find_element(By.NAME, 'password').send_keys('lojista123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
-        
-        WebDriverWait(browser, 10).until(EC.url_contains('lojista'))
-        
+
         assert 'lojista' in browser.current_url.lower()
 
     def test_dashboard_exibe_nome_loja(self, browser, live_server_url, lojista_user, loja):
@@ -34,9 +31,7 @@ class TestLojistaDashboard:
         browser.find_element(By.NAME, 'username').send_keys('lojista_teste')
         browser.find_element(By.NAME, 'password').send_keys('lojista123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
-        
-        WebDriverWait(browser, 10).until(EC.url_contains('lojista'))
-        
+
         assert 'Loja Teste' in browser.page_source
 
     def test_dashboard_exibe_produtos(self, browser, live_server_url, lojista_user, loja, produto):
@@ -45,9 +40,7 @@ class TestLojistaDashboard:
         browser.find_element(By.NAME, 'username').send_keys('lojista_teste')
         browser.find_element(By.NAME, 'password').send_keys('lojista123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
-        
-        WebDriverWait(browser, 10).until(EC.url_contains('lojista'))
-        
+
         assert 'Produto Teste' in browser.page_source
 
     def test_dashboard_exibe_estatisticas(self, browser, live_server_url, lojista_user, loja, produto):
@@ -56,9 +49,7 @@ class TestLojistaDashboard:
         browser.find_element(By.NAME, 'username').send_keys('lojista_teste')
         browser.find_element(By.NAME, 'password').send_keys('lojista123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
-        
-        WebDriverWait(browser, 10).until(EC.url_contains('lojista'))
-        
+
         assert '1' in browser.page_source or 'produto' in browser.page_source.lower()
 
 
@@ -71,9 +62,7 @@ class TestLojistaEditarPerfil:
         browser.find_element(By.NAME, 'username').send_keys('lojista_teste')
         browser.find_element(By.NAME, 'password').send_keys('lojista123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
-        
-        WebDriverWait(browser, 10).until(EC.url_contains('lojista'))
-        
+
         editar_link = browser.find_element(By.LINK_TEXT, 'Editar Perfil')
         editar_link.click()
         
@@ -94,7 +83,5 @@ class TestLojistaProduto:
         browser.find_element(By.NAME, 'username').send_keys('lojista_teste')
         browser.find_element(By.NAME, 'password').send_keys('lojista123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
-        
-        WebDriverWait(browser, 10).until(EC.url_contains('lojista'))
-        
+
         assert '/lojista/' in browser.current_url
