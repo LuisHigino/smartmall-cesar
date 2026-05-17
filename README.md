@@ -112,3 +112,44 @@ A ideia de shopping se dá uma vez que nos abre um leque bem vasto de possíveis
 🔗 [Link para o relatório](https://docs.google.com/document/d/1Yo5ENeY9-u8R38xkobqNAhEtLM3zdIDv_lSyA-5Yq2I/edit?usp=sharing)
 
 </details>
+
+<details>
+<summary><strong>🚀 Entrega 04 - Pipeline CI/CD e Contribuição</strong></summary>
+
+### ✅ Funcionalidades Implementadas:
+- ✅ Pipeline CI/CD com GitHub Actions
+- ✅ Execução automatizada dos testes antes do deploy
+- ✅ Deploy no Render via Deploy Hook
+- ✅ Ajustes de configuração para ambiente de integração contínua
+- ✅ Guia de contribuição do projeto (`CONTRIBUTING.md`)
+
+### 🌐 Deploy
+- **Aplicação em Produção:**\
+🔗 [Link para o Deploy](https://smartmall-web.onrender.com)
+
+### 📄 Quadro da Entrega
+- **Gestão do Projeto:**\
+🔗 [Link para o Sprint](https://matheus-guerra-britto.atlassian.net/jira/software/projects/PF/boards/34)\
+🔗 [Link para o Backlog](https://matheus-guerra-britto.atlassian.net/jira/software/projects/PF/boards/34/backlog?epics=visible)
+
+- **Print do Backlog e do Quadro do Jira**\
+  <!-- Adicionar aqui os prints atualizados do backlog e do quadro da Entrega 04. -->
+
+### 🐛 Controle de Issues
+- **Issue/Bug Tracker do GitHub Atualizado:**\
+  <!-- Adicionar aqui o print atualizado da aba Issues/Bug Tracker do GitHub. -->
+
+### 🎥 Apresentação
+- **Screen Cast:**\
+🔗 [Link para o screen cast da pipeline CI/CD](INSERIR_LINK_PIPELINE_CICD)\
+🔗 [Link para o screen cast de novas funcionalidades](INSERIR_LINK_NOVAS_FUNCIONALIDADES)\
+🔗 [Link para o screen cast dos testes automatizados](https://youtu.be/yQhORO_eMUo)
+
+### 📋 Documentação
+- **Guia de Contribuição:**\
+🔗 [CONTRIBUTING.md](CONTRIBUTING.md)
+
+- **Relatório de Programação em Par:**\
+🔗 [Link para o relatório](https://docs.google.com/document/d/1Yo5ENeY9-u8R38xkobqNAhEtLM3zdIDv_lSyA-5Yq2I/edit?usp=sharing)
+
+</details>
