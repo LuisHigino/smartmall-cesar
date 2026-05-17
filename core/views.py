@@ -35,8 +35,7 @@ def painel_catalogo(request):
 
 
 def home(request):
-    # Opção A: a home vira um redirect para a vitrine (perspectiva do cliente)
-    return redirect("vitrine")
+    return render(request, "core/public/home.html")
 
 
 def vitrine(request):
@@ -416,6 +415,16 @@ def adicionar_carrinho(request, produto_id):
 
     return redirect('carrinho')
 
+def remover_carrinho(request, produto_id):
+    carrinho = request.session.get('carrinho', [])
+
+    if produto_id in carrinho:
+        carrinho.remove(produto_id)
+
+    request.session['carrinho'] = carrinho
+
+    return redirect('carrinho')
+
 def registrar_cliente(request):
     if request.method == "POST":
         form = ClienteRegistrationForm(request.POST)
@@ -432,6 +441,7 @@ def registrar_cliente(request):
     else:
         # Se for só um acesso normal à página, mostra o formulário vazio
         form = ClienteRegistrationForm()
+
 
     # Aponta para o arquivo HTML que vamos criar
     return render(request, "registration/registro_cliente.html", {"form": form})

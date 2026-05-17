@@ -1,9 +1,62 @@
 {% extends "core/base.html" %}
+{% load static %}
 
 {% block title %}SmartMall{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/pages/public.css' %}" />
+{% endblock %}
+
 {% block content %}
-<main class="container">
-    <p>Redirecionando para a vitrine...</p>
-</main>
+<div class="page-shell home-shell">
+    <header class="site-header site-header--light public-header home-header">
+        <a class="brand" href="{% url 'home' %}">Smart<span>Mall</span></a>
+
+        <nav class="nav-menu">
+            <a href="{% url 'vitrine' %}">Vitrine</a>
+            <a href="{% url 'carrinho' %}">Carrinho</a>
+            {% if user.is_authenticated %} {% if user.is_staff %}
+            <a href="{% url 'admin_dashboard' %}">Meu Painel</a>
+            {% elif user.loja %}
+            <a href="{% url 'lojista_dashboard' %}">Minha Loja</a>
+            {% endif %}
+            <a href="{% url 'logout' %}">Sair</a>
+            {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'registrar_lojista' %}">Cadastre-se</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main
+        class="home-hero"
+        style="--home-hero-image: url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1800&q=80')"
+    >
+        <section class="home-hero-content" aria-label="Apresentação SmartMall">
+            <h1>Um shopping que cabe no seu bolso</h1>
+            <p>
+                Lojas, vitrines e produtos reunidos em uma experiência simples,
+                rápida e acessível.
+            </p>
+            <a class="home-hero-button" href="{% url 'vitrine' %}">
+                Ir para a vitrine
+            </a>
+        </section>
+    </main>
+
+    <section class="home-highlights" aria-label="Destaques SmartMall">
+        <div class="home-highlight">
+            <strong>Lojas reunidas</strong>
+            <span>Explore diferentes categorias em um só ambiente.</span>
+        </div>
+        <div class="home-highlight">
+            <strong>Vitrine digital</strong>
+            <span>Veja produtos e detalhes antes de escolher a loja.</span>
+        </div>
+        <div class="home-highlight">
+            <strong>Acesso rápido</strong>
+            <span>Entre pelo celular ou desktop e continue navegando.</span>
+        </div>
+    </section>
+</div>
 {% endblock %}

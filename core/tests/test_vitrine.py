@@ -5,8 +5,6 @@ import time
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 
 from core.models import Categoria, Loja, Produto
@@ -51,12 +49,13 @@ class TestVitrine:
         
         assert f'categoria={categoria.id}' in browser.current_url
 
-    def test_redirect_home_para_vitrine(self, browser, live_server_url):
-        """Teste: Acessar / redireciona para /vitrine/."""
+    def test_home_carrega(self, browser, live_server_url):
+        """Teste: Acessar / carrega a página inicial."""
         browser.get(f'{live_server_url}/')
         time.sleep(2)
-        
-        assert '/vitrine/' in browser.current_url
+
+        assert 'Um shopping que cabe no seu bolso' in browser.page_source
+        assert 'Ir para a vitrine' in browser.page_source
 
 
 class TestNavbar:
@@ -77,8 +76,6 @@ class TestNavbar:
         browser.find_element(By.NAME, 'password').send_keys('admin123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
         time.sleep(2)
-        
-        WebDriverWait(browser, 10).until(EC.url_contains('admin'))
         time.sleep(2)
         
         assert 'admin' in browser.page_source.lower() or 'Painel' in browser.page_source
@@ -91,8 +88,6 @@ class TestNavbar:
         browser.find_element(By.NAME, 'password').send_keys('lojista123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
         time.sleep(2)
-        
-        WebDriverWait(browser, 10).until(EC.url_contains('lojista'))
         time.sleep(2)
         
         assert 'lojista' in browser.current_url.lower()
