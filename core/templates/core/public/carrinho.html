@@ -1,31 +1,84 @@
 {% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Meu Carrinho - SmartMall{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/pages/public.css' %}" />
+{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1>Meu Carrinho</h1>
+<div class="page-shell">
+    <header class="site-header site-header--light public-header cart-header">
+        <a class="brand" href="{% url 'home' %}">Smart<span>Mall</span></a>
 
-    {% if produtos %}
-        {% for produto in produtos %}
-            <div class="panel">
-            <h2>{{ produto.nome }}</h2>
-
-            <p>
-                R$ {{ produto.preco }}
-            </p>
-
-            {% if produto.imagem %}
-                <img src="{{ produto.imagem.url }}" width="150">
+        <nav class="nav-menu">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'vitrine' %}">Vitrine</a>
+            <a href="{% url 'carrinho' %}">Carrinho</a>
+            {% if user.is_authenticated %} {% if user.is_staff %}
+            <a href="{% url 'admin_dashboard' %}">Meu Painel</a>
+            {% elif user.loja %}
+            <a href="{% url 'lojista_dashboard' %}">Minha Loja</a>
             {% endif %}
+            <a href="{% url 'logout' %}">Sair</a>
+            {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'registrar_lojista' %}">Cadastre-se</a>
+            {% endif %}
+        </nav>
+    </header>
 
-            <br><br>
+    <main class="cart-page">
+        <section class="cart-heading">
+            <div>
+                <h1>Meu Carrinho</h1>
+                <p>Confira os produtos escolhidos antes de continuar navegando.</p>
+            </div>
+            <a href="{% url 'vitrine' %}" class="btn btn-secondary">Continuar comprando</a>
+        </section>
 
-            <a href="{% url 'remover_carrinho' produto.id %}" class="btn btn-danger">
-                Remover
-            </a>
-        </div>
-        {% endfor %}
-    {% else %}
-        <p>Seu carrinho está vazio.</p>
-    {% endif %}
+        {% if produtos %}
+        <section class="cart-list" aria-label="Produtos no carrinho">
+            {% for produto in produtos %}
+            <article class="cart-item">
+                {% if produto.imagem %}
+                <img
+                    src="{{ produto.imagem.url }}"
+                    class="cart-item-image"
+                    alt="Imagem do produto {{ produto.nome }}"
+                />
+                {% else %}
+                <div class="cart-item-image cart-item-image--placeholder" aria-hidden="true">
+                    {{ produto.nome|slice:":1" }}
+                </div>
+                {% endif %}
+
+                <div class="cart-item-info">
+                    <h2>{{ produto.nome }}</h2>
+                    {% if produto.loja %}
+                    <p class="meta">Loja: {{ produto.loja.nome }}</p>
+                    {% endif %}
+                    <p class="cart-item-price">R$ {{ produto.preco }}</p>
+                </div>
+
+                <a href="{% url 'remover_carrinho' produto.id %}" class="btn btn-danger btn-small">
+                    Remover
+                </a>
+            </article>
+            {% endfor %}
+        </section>
+        {% else %}
+        <section class="cart-empty">
+            <h2>Seu carrinho está vazio</h2>
+            <p>Explore a vitrine e adicione produtos das lojas disponíveis.</p>
+            <a href="{% url 'vitrine' %}" class="btn">Ir para a vitrine</a>
+        </section>
+        {% endif %}
+    </main>
+
+    <footer class="page-footer">
+        <div>© SmartMall</div>
+    </footer>
 </div>
 {% endblock %}
