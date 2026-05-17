@@ -1,6 +1,8 @@
 """
 Testes E2E do administrador (gerente do shopping).
 """
+import time
+
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -14,6 +16,15 @@ from core.models import Categoria, Loja, Produto
 pytestmark = pytest.mark.django_db
 
 
+def wait_for_url(browser, fragment, timeout=3):
+    """Aguarda redirecionamentos com polling leve."""
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        if fragment in browser.current_url:
+            return
+        time.sleep(0.1)
+
+
 class TestAdminDashboard:
     """Testes do dashboard do admin."""
 
@@ -23,6 +34,7 @@ class TestAdminDashboard:
         browser.find_element(By.NAME, 'username').send_keys('admin')
         browser.find_element(By.NAME, 'password').send_keys('admin123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
+        wait_for_url(browser, 'admin-dashboard')
 
         assert 'admin' in browser.current_url.lower()
 
@@ -32,6 +44,7 @@ class TestAdminDashboard:
         browser.find_element(By.NAME, 'username').send_keys('admin')
         browser.find_element(By.NAME, 'password').send_keys('admin123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
+        wait_for_url(browser, 'admin-dashboard')
 
         assert '1' in browser.page_source or 'loja' in browser.page_source.lower()
 
@@ -41,6 +54,7 @@ class TestAdminDashboard:
         browser.find_element(By.NAME, 'username').send_keys('admin')
         browser.find_element(By.NAME, 'password').send_keys('admin123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
+        wait_for_url(browser, 'admin-dashboard')
 
         assert 'Loja Teste' in browser.page_source
 
@@ -50,6 +64,7 @@ class TestAdminDashboard:
         browser.find_element(By.NAME, 'username').send_keys('admin')
         browser.find_element(By.NAME, 'password').send_keys('admin123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
+        wait_for_url(browser, 'admin-dashboard')
 
         gerenciar_link = browser.find_element(By.LINK_TEXT, 'Gerenciar Lojas')
         assert gerenciar_link is not None
@@ -64,6 +79,7 @@ class TestGerenciarLojas:
         browser.find_element(By.NAME, 'username').send_keys('admin')
         browser.find_element(By.NAME, 'password').send_keys('admin123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
+        wait_for_url(browser, 'admin-dashboard')
 
         browser.get(f'{live_server_url}/admin-dashboard/lojas/')
         
@@ -78,6 +94,7 @@ class TestCatalogoAdmin:
         browser.find_element(By.NAME, 'username').send_keys('admin')
         browser.find_element(By.NAME, 'password').send_keys('admin123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
+        wait_for_url(browser, 'admin-dashboard')
 
         browser.get(f'{live_server_url}/catalogo/')
         
@@ -97,10 +114,12 @@ class TestCatalogoAdmin:
         browser.find_element(By.NAME, 'username').send_keys('admin')
         browser.find_element(By.NAME, 'password').send_keys('admin123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
+        wait_for_url(browser, 'admin-dashboard')
 
         browser.get(f'{live_server_url}/catalogo/remover/{prod_id}/')
         
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
+        wait_for_url(browser, 'catalogo')
         
         assert not Produto.objects.filter(id=prod_id).exists()
 
@@ -120,6 +139,7 @@ class TestAdminAcesso:
         browser.find_element(By.NAME, 'username').send_keys('admin')
         browser.find_element(By.NAME, 'password').send_keys('admin123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
+        wait_for_url(browser, 'admin-dashboard')
 
         link_admin = browser.find_element(By.LINK_TEXT, 'Painel Django Admin')
         assert link_admin is not None

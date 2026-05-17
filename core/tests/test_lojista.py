@@ -1,6 +1,8 @@
 """
 Testes E2E do lojista.
 """
+import time
+
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -13,6 +15,15 @@ from core.models import Produto
 pytestmark = pytest.mark.django_db
 
 
+def wait_for_url(browser, fragment, timeout=3):
+    """Aguarda redirecionamentos com polling leve."""
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        if fragment in browser.current_url:
+            return
+        time.sleep(0.1)
+
+
 class TestLojistaDashboard:
     """Testes do dashboard do lojista."""
 
@@ -22,6 +33,7 @@ class TestLojistaDashboard:
         browser.find_element(By.NAME, 'username').send_keys('lojista_teste')
         browser.find_element(By.NAME, 'password').send_keys('lojista123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
+        wait_for_url(browser, 'lojista')
 
         assert 'lojista' in browser.current_url.lower()
 
@@ -31,6 +43,7 @@ class TestLojistaDashboard:
         browser.find_element(By.NAME, 'username').send_keys('lojista_teste')
         browser.find_element(By.NAME, 'password').send_keys('lojista123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
+        wait_for_url(browser, 'lojista')
 
         assert 'Loja Teste' in browser.page_source
 
@@ -40,6 +53,7 @@ class TestLojistaDashboard:
         browser.find_element(By.NAME, 'username').send_keys('lojista_teste')
         browser.find_element(By.NAME, 'password').send_keys('lojista123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
+        wait_for_url(browser, 'lojista')
 
         assert 'Produto Teste' in browser.page_source
 
@@ -49,6 +63,7 @@ class TestLojistaDashboard:
         browser.find_element(By.NAME, 'username').send_keys('lojista_teste')
         browser.find_element(By.NAME, 'password').send_keys('lojista123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
+        wait_for_url(browser, 'lojista')
 
         assert '1' in browser.page_source or 'produto' in browser.page_source.lower()
 
@@ -62,6 +77,7 @@ class TestLojistaEditarPerfil:
         browser.find_element(By.NAME, 'username').send_keys('lojista_teste')
         browser.find_element(By.NAME, 'password').send_keys('lojista123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
+        wait_for_url(browser, 'lojista')
 
         editar_link = browser.find_element(By.LINK_TEXT, 'Editar Perfil')
         editar_link.click()
@@ -83,5 +99,6 @@ class TestLojistaProduto:
         browser.find_element(By.NAME, 'username').send_keys('lojista_teste')
         browser.find_element(By.NAME, 'password').send_keys('lojista123')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
+        wait_for_url(browser, 'lojista')
 
         assert '/lojista/' in browser.current_url
